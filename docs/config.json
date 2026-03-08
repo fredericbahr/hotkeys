@@ -49,6 +49,24 @@
               "to": "framework/solid/reference/index"
             }
           ]
+        },
+        {
+          "label": "angular",
+          "children": [
+            {
+              "label": "Quick Start",
+              "to": "framework/angular/quick-start"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "Quick Start",
+              "to": "framework/vue/quick-start"
+            }
+          ]
         }
       ]
     },
@@ -130,6 +148,56 @@
               "to": "framework/solid/guides/formatting-display"
             }
           ]
+        },
+        {
+          "label": "angular",
+          "children": [
+            {
+              "label": "Hotkeys",
+              "to": "framework/angular/guides/hotkeys"
+            },
+            {
+              "label": "Sequences",
+              "to": "framework/angular/guides/sequences"
+            },
+            {
+              "label": "Hotkey Recording",
+              "to": "framework/angular/guides/hotkey-recording"
+            },
+            {
+              "label": "Key State Tracking",
+              "to": "framework/angular/guides/key-state-tracking"
+            },
+            {
+              "label": "Formatting & Display",
+              "to": "framework/angular/guides/formatting-display"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "Hotkeys",
+              "to": "framework/vue/guides/hotkeys"
+            },
+            {
+              "label": "Sequences",
+              "to": "framework/vue/guides/sequences"
+            },
+            {
+              "label": "Hotkey Recording",
+              "to": "framework/vue/guides/hotkey-recording"
+            },
+            {
+              "label": "Key State Tracking",
+              "to": "framework/vue/guides/key-state-tracking"
+            },
+            {
+              "label": "Formatting & Display",
+              "to": "framework/vue/guides/formatting-display"
+            }
+          ]
         }
       ]
     },
@@ -175,6 +243,15 @@
             {
               "label": "Angular Inject APIs",
               "to": "framework/angular/reference/index"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "Vue Composables",
+              "to": "framework/vue/reference/index"
             }
           ]
         }
@@ -278,6 +355,27 @@
               "to": "framework/angular/reference/interfaces/HotkeysProviderOptions"
             }
           ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useHotkey",
+              "to": "framework/vue/reference/functions/useHotkey"
+            },
+            {
+              "label": "UseHotkeyOptions",
+              "to": "framework/vue/reference/interfaces/UseHotkeyOptions"
+            },
+            {
+              "label": "provideHotkeysContext",
+              "to": "framework/vue/reference/functions/provideHotkeysContext"
+            },
+            {
+              "label": "HotkeysProviderOptions",
+              "to": "framework/vue/reference/interfaces/HotkeysProviderOptions"
+            }
+          ]
         }
       ]
     },
@@ -359,6 +457,19 @@
               "to": "framework/angular/reference/interfaces/InjectHotkeySequenceOptions"
             }
           ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useHotkeySequence",
+              "to": "framework/vue/reference/functions/useHotkeySequence"
+            },
+            {
+              "label": "UseHotkeySequenceOptions",
+              "to": "framework/vue/reference/interfaces/UseHotkeySequenceOptions"
+            }
+          ]
         }
       ]
     },
@@ -418,6 +529,15 @@
             {
               "label": "injectKeyHold",
               "to": "framework/angular/reference/functions/injectKeyHold"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useKeyHold",
+              "to": "framework/vue/reference/functions/useKeyHold"
             }
           ]
         }
@@ -497,6 +617,19 @@
               "to": "framework/angular/reference/functions/injectHeldKeyCodes"
             }
           ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useHeldKeys",
+              "to": "framework/vue/reference/functions/useHeldKeys"
+            },
+            {
+              "label": "useHeldKeyCodes",
+              "to": "framework/vue/reference/functions/useHeldKeyCodes"
+            }
+          ]
         }
       ]
     },
@@ -568,6 +701,19 @@
             {
               "label": "AngularHotkeyRecorder",
               "to": "framework/angular/reference/interfaces/AngularHotkeyRecorder"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useHotkeyRecorder",
+              "to": "framework/vue/reference/functions/useHotkeyRecorder"
+            },
+            {
+              "label": "VueHotkeyRecorder",
+              "to": "framework/vue/reference/interfaces/VueHotkeyRecorder"
             }
           ]
         }
@@ -708,6 +854,56 @@
             {
               "label": "createKeyHold",
               "to": "framework/solid/examples/createKeyHold"
+            }
+          ]
+        },
+        {
+          "label": "angular",
+          "children": [
+            {
+              "label": "injectHotkey",
+              "to": "framework/angular/examples/injectHotkey"
+            },
+            {
+              "label": "injectHotkeySequence",
+              "to": "framework/angular/examples/injectHotkeySequence"
+            },
+            {
+              "label": "injectHotkeyRecorder",
+              "to": "framework/angular/examples/injectHotkeyRecorder"
+            },
+            {
+              "label": "injectHeldKeys",
+              "to": "framework/angular/examples/injectHeldKeys"
+            },
+            {
+              "label": "injectKeyHold",
+              "to": "framework/angular/examples/injectKeyHold"
+            }
+          ]
+        },
+        {
+          "label": "vue",
+          "children": [
+            {
+              "label": "useHotkey",
+              "to": "framework/vue/examples/useHotkey"
+            },
+            {
+              "label": "useHotkeySequence",
+              "to": "framework/vue/examples/useHotkeySequence"
+            },
+            {
+              "label": "useHotkeyRecorder",
+              "to": "framework/vue/examples/useHotkeyRecorder"
+            },
+            {
+              "label": "useHeldKeys",
+              "to": "framework/vue/examples/useHeldKeys"
+            },
+            {
+              "label": "useKeyHold",
+              "to": "framework/vue/examples/useKeyhold"
             }
           ]
         }

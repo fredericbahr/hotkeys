@@ -7,6 +7,18 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
 await generateReferenceDocs({
   packages: [
     {
+      name: 'angular-hotkeys',
+      entryPoints: [
+        resolve(__dirname, '../packages/angular-hotkeys/src/index.ts'),
+      ],
+      tsconfig: resolve(
+        __dirname,
+        '../packages/angular-hotkeys/tsconfig.docs.json',
+      ),
+      outputDir: resolve(__dirname, '../docs/framework/angular/reference'),
+      exclude: ['packages/hotkeys/**/*'],
+    },
+    {
       name: 'hotkeys',
       entryPoints: [resolve(__dirname, '../packages/hotkeys/src/index.ts')],
       tsconfig: resolve(__dirname, '../packages/hotkeys/tsconfig.docs.json'),
@@ -49,15 +61,13 @@ await generateReferenceDocs({
       exclude: ['packages/hotkeys/**/*'],
     },
     {
-      name: 'angular-hotkeys',
-      entryPoints: [
-        resolve(__dirname, '../packages/angular-hotkeys/src/index.ts'),
-      ],
+      name: 'vue-hotkeys',
+      entryPoints: [resolve(__dirname, '../packages/vue-hotkeys/src/index.ts')],
       tsconfig: resolve(
         __dirname,
-        '../packages/angular-hotkeys/tsconfig.docs.json',
+        '../packages/vue-hotkeys/tsconfig.docs.json',
       ),
-      outputDir: resolve(__dirname, '../docs/framework/angular/reference'),
+      outputDir: resolve(__dirname, '../docs/framework/vue/reference'),
       exclude: ['packages/hotkeys/**/*'],
     },
   ],
