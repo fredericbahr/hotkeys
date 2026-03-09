@@ -8,6 +8,7 @@ TanStack Hotkeys is compatible with various front-end frameworks. Install the co
 <!-- ::start:tabs variant="package-managers" -->
 
 angular: @tanstack/angular-hotkeys
+lit: @tanstack/lit-hotkeys
 preact: @tanstack/preact-hotkeys
 react: @tanstack/react-hotkeys
 solid: @tanstack/solid-hotkeys
@@ -64,6 +65,14 @@ If you want the Vue devtools panel component, also install:
 
 <!-- ::end:framework -->
 
+<!-- ::start:framework -->
+
+# Lit
+
+Start with the [Quick Start](./framework/lit/quick-start) guide and the Lit-specific [guides](./framework/lit/guides/hotkeys).
+
+<!-- ::end:framework -->
+
 <!-- ::start:tabs variant="package-manager" -->
 
 preact: @tanstack/preact-devtools
@@ -107,4 +116,3 @@ See the [devtools](./devtools) documentation for setup details.
 See the [devtools](./devtools) documentation for setup details.
 
 <!-- ::end:framework -->
-

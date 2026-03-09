@@ -51,4 +51,4 @@ Surprisingly, in our experience, even AI often struggles to get hotkey managemen
 - **Awesome Devtools!**
   - See all currently registered hotkeys, held keys, and more in real-time.
 
-For a complete walkthrough, see the [React Quick Start](framework/react/quick-start), [Angular Quick Start](framework/angular/quick-start), or [Vue Quick Start](framework/vue/quick-start).
+For a complete walkthrough, see the [React Quick Start](framework/react/quick-start), [Angular Quick Start](framework/angular/quick-start), [Vue Quick Start](framework/vue/quick-start), [Lit Quick Start](framework/lit/quick-start), or [Preact Quick Start](framework/preact/quick-start).

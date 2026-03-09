@@ -45,7 +45,7 @@ npm install @tanstack/solid-devtools @tanstack/solid-hotkeys-devtools
 npm install @tanstack/vue-hotkeys-devtools
 ```
 
-Angular does not currently ship a dedicated hotkeys devtools adapter.
+Angular and Lit do not currently ship a dedicated hotkeys devtools adapter.
 
 ## Setup
 

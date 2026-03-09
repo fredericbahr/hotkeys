@@ -69,6 +69,15 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "Quick Start",
+              "to": "framework/lit/quick-start"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -225,6 +234,31 @@
             {
               "label": "Formatting & Display",
               "to": "framework/vue/guides/formatting-display"
+            }
+          ]
+        },
+        {
+          "label": "lit",
+          "children": [
+            {
+              "label": "Hotkeys",
+              "to": "framework/lit/guides/hotkeys"
+            },
+            {
+              "label": "Sequences",
+              "to": "framework/lit/guides/sequences"
+            },
+            {
+              "label": "Hotkey Recording",
+              "to": "framework/lit/guides/hotkey-recording"
+            },
+            {
+              "label": "Key State Tracking",
+              "to": "framework/lit/guides/key-state-tracking"
+            },
+            {
+              "label": "Formatting & Display",
+              "to": "framework/lit/guides/formatting-display"
             }
           ]
         },

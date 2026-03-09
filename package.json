@@ -50,6 +50,11 @@
       "test:sherif"
     ]
   },
+  "pnpm": {
+    "overrides": {
+      "rolldown": "1.0.0-rc.12"
+    }
+  },
   "devDependencies": {
     "@changesets/cli": "^2.30.0",
     "@faker-js/faker": "^10.3.0",
@@ -80,6 +85,8 @@
     "@tanstack/angular-hotkeys": "workspace:*",
     "@tanstack/hotkeys": "workspace:*",
     "@tanstack/hotkeys-devtools": "workspace:*",
+    "@tanstack/lit-hotkeys": "workspace:*",
+    "@tanstack/lit-hotkeys-devtools": "workspace:*",
     "@tanstack/preact-hotkeys": "workspace:*",
     "@tanstack/preact-hotkeys-devtools": "workspace:*",
     "@tanstack/react-hotkeys": "workspace:*",
@@ -89,5 +96,8 @@
     "@tanstack/svelte-hotkeys": "workspace:*",
     "@tanstack/vue-hotkeys": "workspace:*",
     "@tanstack/vue-hotkeys-devtools": "workspace:*"
+  },
+  "volta": {
+    "node": "24.14.1"
   }
 }
