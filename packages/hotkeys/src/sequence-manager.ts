@@ -446,7 +446,7 @@ export class SequenceManager {
 
     const now = Date.now()
 
-    for (const id of targetRegs) {
+    registrationIds: for (const id of targetRegs) {
       const registration = this.#registrations.get(id)
       if (!registration) {
         continue
@@ -463,11 +463,18 @@ export class SequenceManager {
       // Check if we should ignore input elements (defaults to true)
       if (registration.options.ignoreInputs !== false) {
         const focused = getActiveElementForListenerTarget(target)
-        const shouldIgnore = [focused, event.target].some(
-          (el) => isInputElement(el) && el !== registration.target,
-        )
-        if (shouldIgnore) {
+        const skipBecauseOfFocused =
+          focused && isInputElement(focused) && focused !== registration.target
+
+        if (skipBecauseOfFocused) {
           continue
+        }
+
+        // Check if the event is bubbling to an input element that is not the registration target to
+        for (const element of event.composedPath()) {
+          if (isInputElement(element) && element !== registration.target) {
+            continue registrationIds
+          }
         }
       }
 
