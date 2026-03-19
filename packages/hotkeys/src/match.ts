@@ -1,4 +1,5 @@
 import {
+  PUNCTUATION_CODE_MAP,
   detectPlatform,
   isSingleLetterKey,
   normalizeKeyName,
@@ -15,8 +16,9 @@ import type {
  * Checks if a KeyboardEvent matches a hotkey.
  *
  * Uses the `key` property from KeyboardEvent for matching, with a fallback to `code`
- * for letter keys and digit keys (0-9) when `key` produces special characters
- * (e.g., macOS Option+letter or Shift+number). Letter keys are matched case-insensitively.
+ * for letter keys, digit keys (0-9), and punctuation keys when `key` produces special
+ * characters (e.g., macOS Option+letter, Shift+number, or Option+punctuation).
+ * Letter keys are matched case-insensitively.
  *
  * Also handles "dead key" events where `event.key` is `'Dead'` instead of the expected
  * character. This commonly occurs on macOS with Option+letter combinations (e.g., Option+E,
@@ -92,23 +94,31 @@ export function matchesKeyboardEvent(
   // Dead keys: Option+letter on macOS, international layouts produce event.key === 'Dead'
   // Single-char mismatches: Cmd+Option+T gives '†' instead of 'T', Shift+4 gives '$'
   if (
-    eventKey === 'Dead' ||
-    (eventKey.length === 1 && hotkeyKey.length === 1)
+    event.code &&
+    (eventKey === 'Dead' || (eventKey.length === 1 && hotkeyKey.length === 1))
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- event.code can be undefined in older browsers/mobile
-    if (event.code?.startsWith('Key')) {
+    // fallback for letter keys (common with mac option + letter)
+    if (event.code.startsWith('Key')) {
       const codeLetter = event.code.slice(3)
       if (codeLetter.length === 1 && /^[A-Za-z]$/.test(codeLetter)) {
         return codeLetter.toUpperCase() === hotkeyKey.toUpperCase()
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- event.code can be undefined in older browsers/mobile
-    if (event.code?.startsWith('Digit')) {
+
+    // fallback for number keys (common with mac option + num)
+    if (event.code.startsWith('Digit')) {
       const codeDigit = event.code.slice(5)
       if (codeDigit.length === 1 && /^[0-9]$/.test(codeDigit)) {
         return codeDigit === hotkeyKey
       }
     }
+    // Fallback for punctuation keys (e.g., Minus, Slash, BracketLeft).
+    // On macOS, Option+punctuation produces composed characters (e.g., Option+- → '–'),
+    // but event.code still reports the physical key.
+    if (event.code in PUNCTUATION_CODE_MAP) {
+      return PUNCTUATION_CODE_MAP[event.code] === hotkeyKey
+    }
+
     return false
   }
 
