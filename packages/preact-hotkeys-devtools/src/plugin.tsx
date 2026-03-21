@@ -9,4 +9,5 @@ const plugins = createPreactPlugin({
 })
 
 export const hotkeysDevtoolsPlugin: HotkeysDevtoolsPluginFactory = plugins[0]
-export const hotkeysDevtoolsNoOpPlugin: HotkeysDevtoolsPluginFactory = plugins[1]
+export const hotkeysDevtoolsNoOpPlugin: HotkeysDevtoolsPluginFactory =
+  plugins[1]
