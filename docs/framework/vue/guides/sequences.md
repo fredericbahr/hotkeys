@@ -59,6 +59,16 @@ import { HotkeysProvider } from '@tanstack/vue-hotkeys'
 </template>
 ```
 
+## Chained modifier chords
+
+Each step can use modifiers (for example `Mod+K` then `Mod+C`). You can use the **same** modifier on consecutive steps:
+
+```ts
+useHotkeySequence(['Shift+R', 'Shift+T'], () => doNextAction())
+```
+
+While a sequence is in progress, **modifier-only** keydown events (Shift, Control, Alt, or Meta pressed alone) are ignored: they do not advance the sequence and do not reset progress. A user can press Shift alone between `Shift+R` and `Shift+T` without breaking the sequence.
+
 ## Common Patterns
 
 ### Vim-Style Navigation

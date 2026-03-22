@@ -97,6 +97,20 @@ createHotkeySequence(['Mod+K', 'Mod+C'], () => commentSelection())
 createHotkeySequence(['G', 'Shift+G'], () => scrollToBottom())
 ```
 
+## Chained modifier chords
+
+You can repeat the same modifier across consecutive steps—for example `Shift+R` then `Shift+T`:
+
+```tsx
+createHotkeySequence(['Shift+R', 'Shift+T'], () => {
+  doNextAction()
+})
+```
+
+### Modifier-only keys between steps
+
+While a sequence is in progress, **modifier-only** keydown events (Shift, Control, Alt, or Meta pressed alone, with no letter or other key) are ignored. They do not advance the sequence and they do **not** reset progress, so a user can tap or hold Shift between chords without breaking the sequence.
+
 ## Common Sequence Patterns
 
 ### Vim-Style Navigation
@@ -141,6 +155,7 @@ The `SequenceManager` (singleton) handles all sequence registrations. When a key
 2. If it matches, the sequence advances to the next step
 3. If the timeout expires between steps, the sequence resets
 4. When all steps are completed, the callback fires
+5. Modifier-only keydowns are ignored (they neither advance nor reset the sequence)
 
 ### Overlapping Sequences
 

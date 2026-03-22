@@ -12,12 +12,17 @@ function useHotkeySequence(
    options): void;
 ```
 
-Defined in: [useHotkeySequence.ts:63](https://github.com/TanStack/hotkeys/blob/main/packages/preact-hotkeys/src/useHotkeySequence.ts#L63)
+Defined in: [useHotkeySequence.ts:73](https://github.com/TanStack/hotkeys/blob/main/packages/preact-hotkeys/src/useHotkeySequence.ts#L73)
 
 Preact hook for registering a keyboard shortcut sequence (Vim-style).
 
 This hook allows you to register multi-key sequences like 'g g' or 'd d'
 that trigger when the full sequence is pressed within a timeout.
+
+Each step may include modifiers. You can chain the same modifier across
+steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+advance the sequence or reset progress.
 
 ## Parameters
 
@@ -61,6 +66,11 @@ function VimEditor() {
   useHotkeySequence(['D', 'I', 'W'], () => {
     deleteInnerWord()
   }, { timeout: 500 })
+
+  // Same modifier on consecutive steps (bare Shift between chords is ignored)
+  useHotkeySequence(['Shift+R', 'Shift+T'], () => {
+    nextAction()
+  })
 
   return <div>...</div>
 }

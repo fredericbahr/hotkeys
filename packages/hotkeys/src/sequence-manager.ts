@@ -32,11 +32,17 @@ export interface SequenceOptions extends Omit<HotkeyOptions, 'requireReset'> {
 /**
  * A sequence of hotkeys for Vim-style shortcuts.
  *
+ * Each element is one step (a `Hotkey` string). Steps may include modifiers;
+ * the same modifier can appear on consecutive steps (e.g. `Shift+R` then
+ * `Shift+T`). Modifier-only key events do not advance or reset matching—see
+ * `SequenceManager`.
+ *
  * @example
  * ```ts
  * const gotoTop: HotkeySequence = ['G', 'G']  // gg
  * const deleteLine: HotkeySequence = ['D', 'D']  // dd
  * const deleteWord: HotkeySequence = ['D', 'I', 'W']  // diw
+ * const chainedShift: HotkeySequence = ['Shift+R', 'Shift+T']
  * ```
  */
 export type HotkeySequence = Array<Hotkey>
@@ -116,6 +122,11 @@ export interface SequenceRegistrationHandle {
  * This class allows registering multi-key sequences like 'g g' or 'd d'
  * that trigger callbacks when the full sequence is pressed within
  * a configurable timeout.
+ *
+ * Modifier-only `keydown` / `keyup` events (Shift, Control, Alt, or Meta
+ * alone) are not processed: they neither match a step nor reset progress.
+ * That supports chained modifier chords (e.g. `Shift+R` then `Shift+T`) when
+ * the user presses a modifier alone between steps.
  *
  * @example
  * ```ts

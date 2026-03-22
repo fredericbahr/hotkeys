@@ -87,6 +87,20 @@ useHotkeySequence(['G', 'Shift+G'], () => {
 })
 ```
 
+## Chained modifier chords
+
+You can repeat the same modifier across consecutive steps—for example `Shift+R` then `Shift+T`:
+
+```tsx
+useHotkeySequence(['Shift+R', 'Shift+T'], () => {
+  doNextAction()
+})
+```
+
+### Modifier-only keys between steps
+
+While a sequence is in progress, **modifier-only** keydown events (Shift, Control, Alt, or Meta pressed alone, with no letter or other key) are ignored. They do not advance the sequence and they do **not** reset progress. That way a user can tap Shift (or hold it) between chords such as `Shift+R` and `Shift+T` without breaking the sequence—similar to Vim-style flows where a modifier may be pressed before the next chord.
+
 ## Common Sequence Patterns
 
 ### Vim-Style Navigation
@@ -132,6 +146,7 @@ The `SequenceManager` (singleton) handles all sequence registrations. When a key
 2. If it matches, the sequence advances to the next step
 3. If the timeout expires between steps, the sequence resets
 4. When all steps are completed, the callback fires
+5. Modifier-only keydowns are ignored (they neither advance nor reset the sequence)
 
 ### Overlapping Sequences
 

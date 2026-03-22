@@ -12,12 +12,17 @@ function useHotkeySequence(
    options): void;
 ```
 
-Defined in: [packages/vue-hotkeys/src/useHotkeySequence.ts:66](https://github.com/TanStack/hotkeys/blob/main/packages/vue-hotkeys/src/useHotkeySequence.ts#L66)
+Defined in: [packages/vue-hotkeys/src/useHotkeySequence.ts:76](https://github.com/TanStack/hotkeys/blob/main/packages/vue-hotkeys/src/useHotkeySequence.ts#L76)
 
 Vue composable for registering a keyboard shortcut sequence (Vim-style).
 
 This composable allows you to register multi-key sequences like 'g g' or 'd d'
 that trigger when the full sequence is pressed within a timeout.
+
+Each step may include modifiers. You can chain the same modifier across
+steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+advance the sequence or reset progress.
 
 ## Parameters
 
@@ -63,6 +68,11 @@ useHotkeySequence(['D', 'D'], () => {
 useHotkeySequence(['D', 'I', 'W'], () => {
   deleteInnerWord()
 }, { timeout: 500 })
+
+// Same modifier on consecutive steps (bare Shift between chords is ignored)
+useHotkeySequence(['Shift+R', 'Shift+T'], () => {
+  nextAction()
+})
 </script>
 
 <template>

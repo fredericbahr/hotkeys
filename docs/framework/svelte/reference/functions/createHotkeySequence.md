@@ -12,9 +12,14 @@ function createHotkeySequence(
    options): void;
 ```
 
-Defined in: [packages/svelte-hotkeys/src/createHotkeySequence.svelte.ts:67](https://github.com/TanStack/hotkeys/blob/main/packages/svelte-hotkeys/src/createHotkeySequence.svelte.ts#L67)
+Defined in: [packages/svelte-hotkeys/src/createHotkeySequence.svelte.ts:77](https://github.com/TanStack/hotkeys/blob/main/packages/svelte-hotkeys/src/createHotkeySequence.svelte.ts#L77)
 
 Register a global keyboard shortcut sequence for the current component.
+
+Each step may include modifiers. You can chain the same modifier across
+steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+advance the sequence or reset progress.
 
 ## Parameters
 
@@ -54,6 +59,11 @@ Register a global keyboard shortcut sequence for the current component.
   createHotkeySequence(['D', 'I', 'W'], () => {
     deleteInnerWord()
   }, { timeout: 500 })
+
+  // Same modifier on consecutive steps (bare Shift between chords is ignored)
+  createHotkeySequence(['Shift+R', 'Shift+T'], () => {
+    nextAction()
+  })
 </script>
 
 <div>

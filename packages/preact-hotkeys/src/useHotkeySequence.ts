@@ -34,6 +34,11 @@ export interface UseHotkeySequenceOptions extends Omit<
  * This hook allows you to register multi-key sequences like 'g g' or 'd d'
  * that trigger when the full sequence is pressed within a timeout.
  *
+ * Each step may include modifiers. You can chain the same modifier across
+ * steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+ * Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+ * advance the sequence or reset progress.
+ *
  * @param sequence - Array of hotkey strings that form the sequence
  * @param callback - Function to call when the sequence is completed
  * @param options - Options for the sequence behavior
@@ -55,6 +60,11 @@ export interface UseHotkeySequenceOptions extends Omit<
  *   useHotkeySequence(['D', 'I', 'W'], () => {
  *     deleteInnerWord()
  *   }, { timeout: 500 })
+ *
+ *   // Same modifier on consecutive steps (bare Shift between chords is ignored)
+ *   useHotkeySequence(['Shift+R', 'Shift+T'], () => {
+ *     nextAction()
+ *   })
  *
  *   return <div>...</div>
  * }

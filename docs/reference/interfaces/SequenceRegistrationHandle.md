@@ -5,7 +5,7 @@ title: SequenceRegistrationHandle
 
 # Interface: SequenceRegistrationHandle
 
-Defined in: [sequence-manager.ts:105](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L105)
+Defined in: [sequence-manager.ts:111](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L111)
 
 A handle returned from SequenceManager.register() that allows updating
 the callback and options without re-registering the sequence.
@@ -28,7 +28,7 @@ handle.unregister()
 callback: HotkeyCallback;
 ```
 
-Defined in: [sequence-manager.ts:108](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L108)
+Defined in: [sequence-manager.ts:114](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L114)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [sequence-manager.ts:108](https://github.com/TanStack/hotkeys/blob/m
 readonly id: string;
 ```
 
-Defined in: [sequence-manager.ts:106](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L106)
+Defined in: [sequence-manager.ts:112](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L112)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [sequence-manager.ts:106](https://github.com/TanStack/hotkeys/blob/m
 readonly isActive: boolean;
 ```
 
-Defined in: [sequence-manager.ts:107](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L107)
+Defined in: [sequence-manager.ts:113](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L113)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [sequence-manager.ts:107](https://github.com/TanStack/hotkeys/blob/m
 setOptions: (options) => void;
 ```
 
-Defined in: [sequence-manager.ts:109](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L109)
+Defined in: [sequence-manager.ts:115](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L115)
 
 #### Parameters
 
@@ -78,7 +78,7 @@ Defined in: [sequence-manager.ts:109](https://github.com/TanStack/hotkeys/blob/m
 unregister: () => void;
 ```
 
-Defined in: [sequence-manager.ts:110](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L110)
+Defined in: [sequence-manager.ts:116](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L116)
 
 #### Returns
 

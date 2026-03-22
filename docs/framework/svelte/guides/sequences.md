@@ -72,6 +72,16 @@ createHotkeySequence(['G', 'G'], callback, {
 </script>
 ```
 
+## Chained modifier chords
+
+You can use the same modifier on consecutive steps (for example `Shift+R` then `Shift+T`):
+
+```ts
+createHotkeySequence(['Shift+R', 'Shift+T'], () => doNextAction())
+```
+
+While a sequence is in progress, **modifier-only** keydown events (Shift, Control, Alt, or Meta pressed alone) are ignored: they do not advance the sequence and do not reset progress.
+
 ## Common Patterns
 
 ### Vim-Style Navigation

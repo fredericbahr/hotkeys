@@ -12,12 +12,17 @@ function injectHotkeySequence(
    options): void;
 ```
 
-Defined in: [injectHotkeySequence.ts:42](https://github.com/TanStack/hotkeys/blob/main/packages/angular-hotkeys/src/injectHotkeySequence.ts#L42)
+Defined in: [injectHotkeySequence.ts:48](https://github.com/TanStack/hotkeys/blob/main/packages/angular-hotkeys/src/injectHotkeySequence.ts#L48)
 
 Angular inject-based API for registering a keyboard shortcut sequence (Vim-style).
 
 Allows you to register multi-key sequences like 'g g' or 'd d' that trigger
 when the full sequence is pressed within a timeout.
+
+Each step may include modifiers. You can chain the same modifier across
+steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+advance the sequence or reset progress.
 
 ## Parameters
 
@@ -54,6 +59,7 @@ export class VimEditorComponent {
     injectHotkeySequence(['G', 'G'], () => this.lastSequence.set('gg → Go to top'))
     injectHotkeySequence(['D', 'D'], () => this.lastSequence.set('dd → Delete line'))
     injectHotkeySequence(['C', 'I', 'W'], () => this.lastSequence.set('ciw'), { timeout: 500 })
+    injectHotkeySequence(['Shift+R', 'Shift+T'], () => this.lastSequence.set('⇧R⇧T'))
   }
 }
 ```

@@ -63,6 +63,16 @@ export const appConfig: ApplicationConfig = {
 }
 ```
 
+## Chained modifier chords
+
+You can repeat the same modifier across consecutive steps:
+
+```ts
+injectHotkeySequence(['Shift+R', 'Shift+T'], () => doNextAction())
+```
+
+While a sequence is in progress, **modifier-only** keydown events (Shift, Control, Alt, or Meta pressed alone) are ignored: they do not advance the sequence and do not reset progress, so a user can press Shift alone between chords without breaking the sequence.
+
 ## Common Patterns
 
 ### Vim-Style Navigation

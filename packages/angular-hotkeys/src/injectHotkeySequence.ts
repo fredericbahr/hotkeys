@@ -21,6 +21,11 @@ export interface InjectHotkeySequenceOptions extends Omit<
  * Allows you to register multi-key sequences like 'g g' or 'd d' that trigger
  * when the full sequence is pressed within a timeout.
  *
+ * Each step may include modifiers. You can chain the same modifier across
+ * steps (e.g. `Shift+R` then `Shift+T`). Modifier-only keydown events (Shift,
+ * Control, Alt, or Meta pressed alone) are ignored while matching—they do not
+ * advance the sequence or reset progress.
+ *
  * @param sequence - Array of hotkey strings that form the sequence (or getter function)
  * @param callback - Function to call when the sequence is completed
  * @param options - Options for the sequence behavior (or getter function)
@@ -35,6 +40,7 @@ export interface InjectHotkeySequenceOptions extends Omit<
  *     injectHotkeySequence(['G', 'G'], () => this.lastSequence.set('gg → Go to top'))
  *     injectHotkeySequence(['D', 'D'], () => this.lastSequence.set('dd → Delete line'))
  *     injectHotkeySequence(['C', 'I', 'W'], () => this.lastSequence.set('ciw'), { timeout: 500 })
+ *     injectHotkeySequence(['Shift+R', 'Shift+T'], () => this.lastSequence.set('⇧R⇧T'))
  *   }
  * }
  * ```
