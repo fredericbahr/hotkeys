@@ -9,6 +9,7 @@ title: "@tanstack/hotkeys"
 
 - [HotkeyManager](classes/HotkeyManager.md)
 - [HotkeyRecorder](classes/HotkeyRecorder.md)
+- [HotkeySequenceRecorder](classes/HotkeySequenceRecorder.md)
 - [KeyStateTracker](classes/KeyStateTracker.md)
 - [SequenceManager](classes/SequenceManager.md)
 
@@ -23,6 +24,8 @@ title: "@tanstack/hotkeys"
 - [HotkeyRecorderState](interfaces/HotkeyRecorderState.md)
 - [HotkeyRegistration](interfaces/HotkeyRegistration.md)
 - [HotkeyRegistrationHandle](interfaces/HotkeyRegistrationHandle.md)
+- [HotkeySequenceRecorderOptions](interfaces/HotkeySequenceRecorderOptions.md)
+- [HotkeySequenceRecorderState](interfaces/HotkeySequenceRecorderState.md)
 - [KeyStateTrackerState](interfaces/KeyStateTrackerState.md)
 - [ParsedHotkey](interfaces/ParsedHotkey.md)
 - [RawHotkey](interfaces/RawHotkey.md)
@@ -41,6 +44,7 @@ title: "@tanstack/hotkeys"
 - [Hotkey](type-aliases/Hotkey.md)
 - [HotkeyCallback](type-aliases/HotkeyCallback.md)
 - [HotkeySequence](type-aliases/HotkeySequence.md)
+- [HotkeySequenceRecorderCommitKeys](type-aliases/HotkeySequenceRecorderCommitKeys.md)
 - [Key](type-aliases/Key.md)
 - [LetterKey](type-aliases/LetterKey.md)
 - [Modifier](type-aliases/Modifier.md)
@@ -52,6 +56,7 @@ title: "@tanstack/hotkeys"
 ## Variables
 
 - [ALL\_KEYS](variables/ALL_KEYS.md)
+- [DEFAULT\_SEQUENCE\_TIMEOUT](variables/DEFAULT_SEQUENCE_TIMEOUT.md)
 - [EDITING\_KEYS](variables/EDITING_KEYS.md)
 - [FUNCTION\_KEYS](variables/FUNCTION_KEYS.md)
 - [KEY\_DISPLAY\_SYMBOLS](variables/KEY_DISPLAY_SYMBOLS.md)
