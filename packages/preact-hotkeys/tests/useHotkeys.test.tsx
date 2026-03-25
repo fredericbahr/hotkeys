@@ -210,6 +210,63 @@ describe('useHotkeys', () => {
 
     expect(enabledCb).toHaveBeenCalledTimes(1)
     expect(disabledCb).not.toHaveBeenCalled()
+
+    const manager = HotkeyManager.getInstance()
+    expect(manager.getRegistrationCount()).toBe(2)
+    const disabledReg = [...manager.registrations.state.values()].find(
+      (r) => r.hotkey === 'Mod+Z',
+    )
+    expect(disabledReg?.options.enabled).toBe(false)
+  })
+
+  it('should move a registration when only the target changes', () => {
+    const callback = vi.fn()
+    const targetA = document.createElement('div')
+    const targetB = document.createElement('div')
+
+    const { rerender } = render(
+      <MultiHotkeyComponent
+        definitions={[
+          { hotkey: 'Mod+S', callback, options: { target: targetA } },
+        ]}
+      />,
+    )
+
+    targetA.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 's',
+        metaKey: true,
+        bubbles: true,
+      }),
+    )
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    rerender(
+      <MultiHotkeyComponent
+        definitions={[
+          { hotkey: 'Mod+S', callback, options: { target: targetB } },
+        ]}
+      />,
+    )
+    expect(HotkeyManager.getInstance().getRegistrationCount()).toBe(1)
+
+    targetA.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 's',
+        metaKey: true,
+        bubbles: true,
+      }),
+    )
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    targetB.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 's',
+        metaKey: true,
+        bubbles: true,
+      }),
+    )
+    expect(callback).toHaveBeenCalledTimes(2)
   })
 
   describe('stale closure prevention', () => {
@@ -310,6 +367,30 @@ describe('useHotkeys', () => {
         }),
       )
       expect(callback).toHaveBeenCalledTimes(2)
+    })
+
+    it('should preserve registration id when toggling enabled', () => {
+      const callback = vi.fn()
+      const manager = HotkeyManager.getInstance()
+
+      function EnabledComponent({ enabled }: { enabled: boolean }) {
+        useHotkeys([{ hotkey: 'Mod+S', callback, options: { enabled } }], {
+          platform: 'mac',
+        })
+        return null
+      }
+
+      const { rerender } = render(<EnabledComponent enabled={true} />)
+
+      const idBefore = [...manager.registrations.state.keys()][0]
+      expect(manager.getRegistrationCount()).toBe(1)
+
+      rerender(<EnabledComponent enabled={false} />)
+      expect(manager.getRegistrationCount()).toBe(1)
+      expect([...manager.registrations.state.keys()][0]).toBe(idBefore)
+
+      rerender(<EnabledComponent enabled={true} />)
+      expect([...manager.registrations.state.keys()][0]).toBe(idBefore)
     })
   })
 })
