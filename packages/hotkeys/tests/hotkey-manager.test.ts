@@ -619,8 +619,9 @@ describe('HotkeyManager', () => {
 
   describe('ignoreInputs option', () => {
     /**
-     * Helper to create and dispatch a keyboard event from a specific element
-     * The event is dispatched on the target (usually document) but with event.target set to the element
+     * Helper to create and dispatch a keyboard event from a specific element.
+     * Focuses the element first to set document.activeElement, then dispatches
+     * the event on the target (usually document).
      */
     function dispatchKeyboardEventFromElement(
       target: HTMLElement | Document,
@@ -634,6 +635,9 @@ describe('HotkeyManager', () => {
         metaKey?: boolean
       } = {},
     ): KeyboardEvent {
+      // Focus the element so document.activeElement is set
+      element.focus()
+
       const event = new KeyboardEvent(type, {
         key,
         ctrlKey: options.ctrlKey ?? false,
@@ -641,12 +645,6 @@ describe('HotkeyManager', () => {
         altKey: options.altKey ?? false,
         metaKey: options.metaKey ?? false,
         bubbles: true,
-      })
-      // Set the target to the element (where the event originated)
-      Object.defineProperty(event, 'target', {
-        value: element,
-        writable: false,
-        configurable: true,
       })
       // Set currentTarget to the target (where the listener is attached)
       Object.defineProperty(event, 'currentTarget', {
@@ -1053,6 +1051,113 @@ describe('HotkeyManager', () => {
         document.body.removeChild(input)
         callback.mockClear()
       }
+    })
+
+    it('should ignore hotkeys when activeElement is an input but event.target is different (React Aria pattern)', () => {
+      const manager = HotkeyManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register('Q', callback, { platform: 'mac' })
+
+      const input = document.createElement('input')
+      input.type = 'text'
+      const listItem = document.createElement('li')
+      document.body.appendChild(input)
+      document.body.appendChild(listItem)
+
+      input.focus()
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'q',
+        bubbles: true,
+      })
+      Object.defineProperty(event, 'target', {
+        value: listItem,
+        writable: false,
+        configurable: true,
+      })
+      Object.defineProperty(event, 'currentTarget', {
+        value: document,
+        writable: false,
+        configurable: true,
+      })
+      document.dispatchEvent(event)
+
+      expect(callback).not.toHaveBeenCalled()
+
+      document.body.removeChild(input)
+      document.body.removeChild(listItem)
+    })
+
+    it('should fire Mod hotkeys when activeElement is an input but event.target is different (React Aria pattern)', () => {
+      const manager = HotkeyManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register('Mod+S', callback, { platform: 'mac' })
+
+      const input = document.createElement('input')
+      input.type = 'text'
+      const listItem = document.createElement('li')
+      document.body.appendChild(input)
+      document.body.appendChild(listItem)
+
+      input.focus()
+
+      const event = new KeyboardEvent('keydown', {
+        key: 's',
+        metaKey: true,
+        bubbles: true,
+      })
+      Object.defineProperty(event, 'target', {
+        value: listItem,
+        writable: false,
+        configurable: true,
+      })
+      Object.defineProperty(event, 'currentTarget', {
+        value: document,
+        writable: false,
+        configurable: true,
+      })
+      document.dispatchEvent(event)
+
+      expect(callback).toHaveBeenCalledWith(
+        event,
+        expect.objectContaining({ hotkey: 'Mod+S' }),
+      )
+
+      document.body.removeChild(input)
+      document.body.removeChild(listItem)
+    })
+
+    it('should ignore single-key hotkeys when listener target is inside an iframe and focus is in an input there', () => {
+      const manager = HotkeyManager.getInstance()
+      const callback = vi.fn()
+      const iframe = document.createElement('iframe')
+      document.body.appendChild(iframe)
+      const idoc = iframe.contentDocument
+      expect(idoc).toBeTruthy()
+      if (!idoc) {
+        document.body.removeChild(iframe)
+        return
+      }
+
+      const container = idoc.createElement('div')
+      const input = idoc.createElement('input')
+      input.type = 'text'
+      container.appendChild(input)
+      idoc.body.appendChild(container)
+
+      const handle = manager.register('K', callback, {
+        platform: 'mac',
+        target: container,
+      })
+
+      dispatchKeyboardEventFromElement(container, input, 'keydown', 'k')
+
+      expect(callback).not.toHaveBeenCalled()
+
+      handle.unregister()
+      document.body.removeChild(iframe)
     })
   })
 

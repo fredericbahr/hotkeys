@@ -20,7 +20,8 @@ function dispatchKey(
 
 /**
  * Helper to dispatch a keyboard event from a specific element.
- * Dispatches on the element so listeners attached to it receive the event.
+ * Focuses the element first to set document.activeElement, then dispatches
+ * on the element so listeners attached to it receive the event.
  */
 function dispatchKeyFromElement(
   element: HTMLElement,
@@ -33,6 +34,9 @@ function dispatchKeyFromElement(
     metaKey?: boolean
   } = {},
 ): KeyboardEvent {
+  // Focus the element so document.activeElement is set
+  element.focus()
+
   const eventType = options.eventType ?? 'keydown'
   const event = new KeyboardEvent(eventType, {
     key,
@@ -415,6 +419,136 @@ describe('SequenceManager', () => {
       expect(callback).toHaveBeenCalledTimes(1)
 
       document.body.removeChild(input)
+    })
+
+    it('should ignore sequences when activeElement is an input but event.target is different (React Aria pattern)', () => {
+      const manager = SequenceManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register(['G', 'G'], callback)
+
+      const input = document.createElement('input')
+      input.type = 'text'
+      const listItem = document.createElement('li')
+      document.body.appendChild(input)
+      document.body.appendChild(listItem)
+
+      input.focus()
+
+      for (let i = 0; i < 2; i++) {
+        const event = new KeyboardEvent('keydown', {
+          key: 'g',
+          bubbles: true,
+        })
+        Object.defineProperty(event, 'target', {
+          value: listItem,
+          writable: false,
+          configurable: true,
+        })
+        Object.defineProperty(event, 'currentTarget', {
+          value: document,
+          writable: false,
+          configurable: true,
+        })
+        document.dispatchEvent(event)
+      }
+
+      expect(callback).not.toHaveBeenCalled()
+
+      document.body.removeChild(input)
+      document.body.removeChild(listItem)
+    })
+
+    it('should fire Mod sequences when activeElement is an input but event.target is different (React Aria pattern)', () => {
+      const manager = SequenceManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register(['Mod+K', 'S'], callback, { platform: 'mac' })
+
+      const input = document.createElement('input')
+      input.type = 'text'
+      const listItem = document.createElement('li')
+      document.body.appendChild(input)
+      document.body.appendChild(listItem)
+
+      input.focus()
+
+      const event1 = new KeyboardEvent('keydown', {
+        key: 'k',
+        metaKey: true,
+        bubbles: true,
+      })
+      Object.defineProperty(event1, 'target', {
+        value: listItem,
+        writable: false,
+        configurable: true,
+      })
+      Object.defineProperty(event1, 'currentTarget', {
+        value: document,
+        writable: false,
+        configurable: true,
+      })
+      document.dispatchEvent(event1)
+
+      const event2 = new KeyboardEvent('keydown', {
+        key: 's',
+        bubbles: true,
+      })
+      Object.defineProperty(event2, 'target', {
+        value: listItem,
+        writable: false,
+        configurable: true,
+      })
+      Object.defineProperty(event2, 'currentTarget', {
+        value: document,
+        writable: false,
+        configurable: true,
+      })
+      document.dispatchEvent(event2)
+
+      expect(callback).toHaveBeenCalledTimes(1)
+
+      document.body.removeChild(input)
+      document.body.removeChild(listItem)
+    })
+
+    it('should ignore sequences when listener target is inside an iframe and focus is in an input there', () => {
+      const manager = SequenceManager.getInstance()
+      const callback = vi.fn()
+      const iframe = document.createElement('iframe')
+      document.body.appendChild(iframe)
+      const idoc = iframe.contentDocument
+      expect(idoc).toBeTruthy()
+      if (!idoc) {
+        document.body.removeChild(iframe)
+        return
+      }
+
+      const container = idoc.createElement('div')
+      const input = idoc.createElement('input')
+      input.type = 'text'
+      container.appendChild(input)
+      idoc.body.appendChild(container)
+
+      const handle = manager.register(['G', 'G'], callback, {
+        target: container,
+      })
+
+      input.focus()
+      for (let i = 0; i < 2; i++) {
+        const event = new KeyboardEvent('keydown', { key: 'g', bubbles: true })
+        Object.defineProperty(event, 'currentTarget', {
+          value: container,
+          writable: false,
+          configurable: true,
+        })
+        container.dispatchEvent(event)
+      }
+
+      expect(callback).not.toHaveBeenCalled()
+
+      handle.unregister()
+      document.body.removeChild(iframe)
     })
   })
 
