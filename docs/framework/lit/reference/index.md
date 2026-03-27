@@ -1,26 +1,20 @@
 ---
-id: "@tanstack/react-hotkeys"
-title: "@tanstack/react-hotkeys"
+id: "@tanstack/lit-hotkeys"
+title: "@tanstack/lit-hotkeys"
 ---
 
-# @tanstack/react-hotkeys
+# @tanstack/lit-hotkeys
 
-## Interfaces
+## Classes
 
-- [HotkeysProviderOptions](interfaces/HotkeysProviderOptions.md)
-- [HotkeysProviderProps](interfaces/HotkeysProviderProps.md)
-- [ReactHotkeyRecorder](interfaces/ReactHotkeyRecorder.md)
-- [UseHotkeyOptions](interfaces/UseHotkeyOptions.md)
-- [UseHotkeySequenceOptions](interfaces/UseHotkeySequenceOptions.md)
+- [HeldKeyCodesController](classes/HeldKeyCodesController.md)
+- [HeldKeysController](classes/HeldKeysController.md)
+- [HotkeyController](classes/HotkeyController.md)
+- [HotkeyRecorderController](classes/HotkeyRecorderController.md)
+- [HotkeySequenceController](classes/HotkeySequenceController.md)
+- [KeyHoldController](classes/KeyHoldController.md)
 
 ## Functions
 
-- [HotkeysProvider](functions/HotkeysProvider.md)
-- [useDefaultHotkeysOptions](functions/useDefaultHotkeysOptions.md)
-- [useHeldKeyCodes](functions/useHeldKeyCodes.md)
-- [useHeldKeys](functions/useHeldKeys.md)
-- [useHotkey](functions/useHotkey.md)
-- [useHotkeyRecorder](functions/useHotkeyRecorder.md)
-- [useHotkeysContext](functions/useHotkeysContext.md)
-- [useHotkeySequence](functions/useHotkeySequence.md)
-- [useKeyHold](functions/useKeyHold.md)
+- [hotkey](functions/hotkey.md)
+- [hotkeySequence](functions/hotkeySequence.md)

@@ -253,6 +253,10 @@
               "to": "framework/lit/guides/hotkey-recording"
             },
             {
+              "label": "Hotkey Sequence Recording",
+              "to": "framework/lit/guides/sequence-recording"
+            },
+            {
               "label": "Key State Tracking",
               "to": "framework/lit/guides/key-state-tracking"
             },

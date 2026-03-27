@@ -3,184 +3,225 @@ title: Key State Tracking Guide
 id: key-state-tracking
 ---
 
-TanStack Hotkeys provides three hooks for tracking the real-time state of keyboard keys. These are useful for building UIs that respond to modifier keys being held, displaying active key states, or implementing hold-to-activate features.
+TanStack Hotkeys provides three Lit **reactive controllers** for tracking the real-time state of keyboard keys. These are useful for building UIs that respond to modifier keys being held, displaying active key states, or implementing hold-to-activate features.
 
-## `useHeldKeys`
 
-Returns a reactive array of all currently held key names.
+## `HeldKeysController`
 
-```tsx
-import { useHeldKeys } from '@tanstack/react-hotkeys'
+Tracks all currently held key names. Exposes a reactive **`value`** getter: `Array<string>`.
 
-function KeyDisplay() {
-  const heldKeys = useHeldKeys()
+```ts
+import { LitElement, html } from 'lit'
+import { customElement } from 'lit/decorators.js'
+import { HeldKeysController } from '@tanstack/lit-hotkeys'
 
-  return (
-    <div>
-      {heldKeys.length > 0
-        ? `Held: ${heldKeys.join(' + ')}`
-        : 'No keys held'}
-    </div>
-  )
+@customElement('key-display')
+class KeyDisplay extends LitElement {
+  private heldKeys = new HeldKeysController(this)
+
+  render() {
+    const keys = this.heldKeys.value
+    return html`
+      <div>
+        ${keys.length > 0 ? `Held: ${keys.join(' + ')}` : 'No keys held'}
+      </div>
+    `
+  }
 }
 ```
 
-The returned array contains key names like `'Shift'`, `'Control'`, `'Meta'`, `'A'`, `'ArrowUp'`, etc. Keys appear in the order they were pressed.
+The array contains key names like `'Shift'`, `'Control'`, `'Meta'`, `'A'`, `'ArrowUp'`, etc. Keys appear in the order they were pressed.
 
-## `useHeldKeyCodes`
+## `HeldKeyCodesController`
 
-Returns a reactive object mapping held key names to their physical key codes (`event.code` values). This is useful when you need to distinguish between left and right modifiers.
+Tracks held key names mapped to physical key codes (`event.code`). Exposes **`value`**: `Record<string, string>`.
 
-```tsx
-import { useHeldKeyCodes } from '@tanstack/react-hotkeys'
+```ts
+import { LitElement, html } from 'lit'
+import { customElement } from 'lit/decorators.js'
+import { HeldKeyCodesController } from '@tanstack/lit-hotkeys'
 
-function KeyCodeDisplay() {
-  const heldCodes = useHeldKeyCodes()
-  // Example: { Shift: "ShiftLeft", Control: "ControlRight" }
+@customElement('key-code-display')
+class KeyCodeDisplay extends LitElement {
+  private heldKeyCodes = new HeldKeyCodesController(this)
 
-  return (
-    <div>
-      {Object.entries(heldCodes).map(([key, code]) => (
-        <div key={key}>
-          {key}: {code}
-        </div>
-      ))}
-    </div>
-  )
+  render() {
+    const codes = this.heldKeyCodes.value
+    // Example: { Shift: "ShiftLeft", Control: "ControlRight" }
+    return html`
+      <div>
+        ${Object.entries(codes).map(
+          ([key, code]) => html`<div>${key}: ${code}</div>`,
+        )}
+      </div>
+    `
+  }
 }
 ```
 
-## `useKeyHold`
+Use this when you need to distinguish left vs. right modifiers (or other physical keys).
 
-Checks whether a specific key is currently held. This hook is optimized to only trigger re-renders when the specified key's held state changes, not when other keys are pressed or released.
+## `KeyHoldController`
 
-```tsx
-import { useKeyHold } from '@tanstack/react-hotkeys'
+Tracks whether **one** specific key is held. Exposes **`value`**: `boolean`. Updates the host only when **that** key’s held state changes (not on every unrelated key press).
 
-function ModifierIndicators() {
-  const isShiftHeld = useKeyHold('Shift')
-  const isCtrlHeld = useKeyHold('Control')
-  const isAltHeld = useKeyHold('Alt')
-  const isMetaHeld = useKeyHold('Meta')
+```ts
+import { LitElement, html } from 'lit'
+import { customElement } from 'lit/decorators.js'
+import { KeyHoldController } from '@tanstack/lit-hotkeys'
 
-  return (
-    <div className="modifier-bar">
-      <span className={isShiftHeld ? 'active' : ''}>Shift</span>
-      <span className={isCtrlHeld ? 'active' : ''}>Ctrl</span>
-      <span className={isAltHeld ? 'active' : ''}>Alt</span>
-      <span className={isMetaHeld ? 'active' : ''}>Meta</span>
-    </div>
-  )
+@customElement('modifier-indicators')
+class ModifierIndicators extends LitElement {
+  private shift = new KeyHoldController(this, 'Shift')
+  private ctrl = new KeyHoldController(this, 'Control')
+  private alt = new KeyHoldController(this, 'Alt')
+  private meta = new KeyHoldController(this, 'Meta')
+
+  render() {
+    return html`
+      <div class="modifier-bar">
+        <span class=${this.shift.value ? 'active' : ''}>Shift</span>
+        <span class=${this.ctrl.value ? 'active' : ''}>Ctrl</span>
+        <span class=${this.alt.value ? 'active' : ''}>Alt</span>
+        <span class=${this.meta.value ? 'active' : ''}>Meta</span>
+      </div>
+    `
+  }
 }
 ```
 
-## Common Patterns
+## Common patterns
 
-### Hold-to-Reveal UI
+### Hold-to-reveal UI
 
-Show additional options while a modifier is held:
+Show extra actions while Shift is held:
 
-```tsx
-import { useKeyHold } from '@tanstack/react-hotkeys'
+```ts
+import { LitElement, html } from 'lit'
+import { customElement, property } from 'lit/decorators.js'
+import { KeyHoldController } from '@tanstack/lit-hotkeys'
 
-function FileItem({ file }: { file: File }) {
-  const isShiftHeld = useKeyHold('Shift')
+@customElement('file-item')
+class FileItem extends LitElement {
+  @property({ type: String }) fileName = ''
 
-  return (
-    <div className="file-item">
-      <span>{file.name}</span>
-      {isShiftHeld && (
-        <button className="danger" onClick={() => permanentlyDelete(file)}>
-          Permanently Delete
-        </button>
-      )}
-      {!isShiftHeld && (
-        <button onClick={() => moveToTrash(file)}>
-          Move to Trash
-        </button>
-      )}
-    </div>
-  )
+  private shift = new KeyHoldController(this, 'Shift')
+
+  render() {
+    return html`
+      <div class="file-item">
+        <span>${this.fileName}</span>
+        ${this.shift.value
+          ? html`<button class="danger" @click=${this._permanentDelete}>
+              Permanently Delete
+            </button>`
+          : html`<button @click=${this._moveToTrash}>Move to Trash</button>`}
+      </div>
+    `
+  }
+
+  private _permanentDelete = () => {
+    /* permanentlyDelete(file) */
+  }
+  private _moveToTrash = () => {
+    /* moveToTrash(file) */
+  }
 }
 ```
 
-### Keyboard Shortcut Hints
+### Keyboard shortcut hints
 
-Display different shortcut hints based on which modifiers are held:
+```ts
+import { LitElement, html } from 'lit'
+import { customElement } from 'lit/decorators.js'
+import { KeyHoldController } from '@tanstack/lit-hotkeys'
 
-```tsx
-import { useKeyHold } from '@tanstack/react-hotkeys'
+@customElement('shortcut-hints')
+class ShortcutHints extends LitElement {
+  private mod = new KeyHoldController(this, 'Meta') // use 'Control' on Windows if you prefer
 
-function ShortcutHints() {
-  const isModHeld = useKeyHold('Meta') // or 'Control' on Windows
-
-  if (!isModHeld) return null
-
-  return (
-    <div className="shortcut-overlay">
-      <div>S - Save</div>
-      <div>Z - Undo</div>
-      <div>Shift+Z - Redo</div>
-      <div>K - Command Palette</div>
-    </div>
-  )
+  render() {
+    if (!this.mod.value) return html``
+    return html`
+      <div class="shortcut-overlay">
+        <div>S - Save</div>
+        <div>Z - Undo</div>
+        <div>Shift+Z - Redo</div>
+        <div>K - Command Palette</div>
+      </div>
+    `
+  }
 }
 ```
 
-### Debugging Key Display
+### Debugging key display
 
-Combine hooks with formatting utilities for a rich debugging display:
+Combine controllers with [`formatForDisplay`](./formatting-display.md) for readable labels:
 
-```tsx
+```ts
+import { LitElement, html } from 'lit'
+import { customElement } from 'lit/decorators.js'
 import {
-  useHeldKeys,
-  useHeldKeyCodes,
-  formatKeyForDebuggingDisplay,
-} from '@tanstack/react-hotkeys'
+  HeldKeysController,
+  HeldKeyCodesController,
+  formatForDisplay,
+} from '@tanstack/lit-hotkeys'
+import type { RegisterableHotkey } from '@tanstack/lit-hotkeys'
 
-function KeyDebugger() {
-  const heldKeys = useHeldKeys()
-  const heldCodes = useHeldKeyCodes()
+@customElement('key-debugger')
+class KeyDebugger extends LitElement {
+  private heldKeys = new HeldKeysController(this)
+  private heldCodes = new HeldKeyCodesController(this)
 
-  return (
-    <div className="key-debugger">
-      <h3>Active Keys</h3>
-      {heldKeys.map((key) => (
-        <div key={key}>
-          <strong>{formatKeyForDebuggingDisplay(key)}</strong>
-          <span className="code">{heldCodes[key]}</span>
-        </div>
-      ))}
-      {heldKeys.length === 0 && <p>Press any key...</p>}
-    </div>
-  )
+  render() {
+    const keys = this.heldKeys.value
+    const codes = this.heldCodes.value
+    return html`
+      <div class="key-debugger">
+        <h3>Active Keys</h3>
+        ${keys.map(
+          (key) => html`
+            <div>
+              <strong>
+                ${formatForDisplay(key as RegisterableHotkey, {
+                  useSymbols: true,
+                })}
+              </strong>
+              <span class="code">${codes[key] ?? ''}</span>
+            </div>
+          `,
+        )}
+        ${keys.length === 0 ? html`<p>Press any key...</p>` : ''}
+      </div>
+    `
+  }
 }
 ```
 
-## Platform Quirks
+## Platform quirks
 
 The underlying `KeyStateTracker` handles several platform-specific issues:
 
-### macOS Modifier Key Behavior
+### macOS modifier key behavior
 
 On macOS, when a modifier key is held and a non-modifier key is pressed, the OS sometimes swallows the `keyup` event for the non-modifier key. TanStack Hotkeys detects and handles this automatically so held key state stays accurate.
 
-### Window Blur
+### Window blur
 
-When the browser window loses focus, all held keys are automatically cleared. This prevents "stuck" keys that would otherwise appear held even after the user tabs away and releases them.
+When the browser window loses focus, all held keys are automatically cleared. This prevents “stuck” keys after the user tabs away and releases keys outside the window.
 
-## Under the Hood
+## Under the hood 
 
-All three hooks subscribe to the singleton `KeyStateTracker` via `@tanstack/react-store`. The tracker manages its own event listeners on `document` and maintains state in a TanStack Store, which the hooks subscribe to reactively.
+The three controllers subscribe to the singleton `KeyStateTracker` via `@tanstack/lit-store`. The tracker manages its own event listeners on `document` and maintains state in a TanStack Store, which the controllers subscribe to reactively.
 
-```tsx
-import { getKeyStateTracker } from '@tanstack/react-hotkeys'
+```ts
+import { getKeyStateTracker } from '@tanstack/lit-hotkeys'
 
 const tracker = getKeyStateTracker()
 
-// Imperative access (outside of React)
-tracker.getHeldKeys()        // string[]
-tracker.isKeyHeld('Shift')   // boolean
+tracker.getHeldKeys() // string[]
+tracker.store.state.heldCodes // Record<string, string>
+tracker.isKeyHeld('Shift') // boolean
 tracker.isAnyKeyHeld(['Shift', 'Control']) // boolean
 tracker.areAllKeysHeld(['Shift', 'Control']) // boolean
 ```

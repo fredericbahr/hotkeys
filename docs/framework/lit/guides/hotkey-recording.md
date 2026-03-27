@@ -3,54 +3,71 @@ title: Hotkey Recording Guide
 id: hotkey-recording
 ---
 
-TanStack Hotkeys provides the `useHotkeyRecorder` hook for building keyboard shortcut customization UIs. This lets users record their own shortcuts by pressing the desired key combination, similar to how system preferences or IDE shortcut editors work.
+TanStack Hotkeys provides the `HotkeyRecorderController` for building keyboard shortcut customization UIs. This lets users record their own shortcuts by pressing the desired key combination, similar to how system preferences or IDE shortcut editors work.
 
 ## Basic Usage
 
-```tsx
-import { useHotkeyRecorder, formatForDisplay } from '@tanstack/react-hotkeys'
+```ts
+import { LitElement, html, nothing } from 'lit'
+import { customElement } from 'lit/decorators.js'
+import { HotkeyRecorderController, formatForDisplay } from '@tanstack/lit-hotkeys'
 
-function ShortcutRecorder() {
-  const { isRecording, recordedHotkey, startRecording, stopRecording, cancelRecording } =
-    useHotkeyRecorder({
-      onRecord: (hotkey) => {
-        console.log('Recorded:', hotkey) // e.g., "Mod+Shift+S"
-      },
-    })
+@customElement('shortcut-recorder')
+class ShortcutRecorder extends LitElement {
+  private recorder = new HotkeyRecorderController(this, {
+    onRecord: (hotkey) => {
+      console.log('Recorded:', hotkey) // e.g., "Mod+Shift+S"
+    },
+  })
 
-  return (
-    <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording
-          ? 'Press a key combination...'
-          : recordedHotkey
-            ? formatForDisplay(recordedHotkey)
-            : 'Click to record'}
-      </button>
-      {isRecording && (
-        <button onClick={cancelRecording}>Cancel</button>
-      )}
-    </div>
-  )
+  render() {
+    const { isRecording, recordedHotkey } = this.recorder
+    return html`
+      <div>
+        <button
+          @click=${() =>
+            isRecording
+              ? this.recorder.stopRecording()
+              : this.recorder.startRecording()}
+        >
+          ${isRecording
+            ? 'Press a key combination...'
+            : recordedHotkey
+              ? formatForDisplay(recordedHotkey)
+              : 'Click to record'}
+        </button>
+        ${isRecording
+          ? html`<button @click=${() => this.recorder.cancelRecording()}>
+              Cancel
+            </button>`
+          : nothing}
+      </div>
+    `
+  }
 }
 ```
 
-## Return Value
+## Controller API
 
-The `useHotkeyRecorder` hook returns an object with:
+`HotkeyRecorderController` exposes the following reactive getters and methods:
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `isRecording` | `boolean` | Whether the recorder is currently listening for key presses |
-| `recordedHotkey` | `Hotkey \| null` | The last recorded hotkey string, or `null` if nothing recorded |
-| `startRecording` | `() => void` | Start listening for key presses |
-| `stopRecording` | `() => void` | Stop listening and keep the recorded hotkey |
-| `cancelRecording` | `() => void` | Stop listening and discard any recorded hotkey |
+| Member | Type | Description |
+|--------|------|-------------|
+| `isRecording` | `boolean` (getter) | Whether the recorder is currently listening for key presses |
+| `recordedHotkey` | `Hotkey \| null` (getter) | The last recorded hotkey string, or `null` if nothing recorded |
+| `startRecording()` | `() => void` | Start listening for key presses |
+| `stopRecording()` | `() => void` | Stop listening and keep the recorded hotkey |
+| `cancelRecording()` | `() => void` | Stop listening and discard any recorded hotkey |
+| `setOptions(opts)` | `(Partial<HotkeyRecorderOptions>) => void` | Update callbacks at runtime |
+
+The controller registers itself with the host in its constructor, subscribes to the underlying `HotkeyRecorder` store on `hostConnected`, and cleans up on `hostDisconnected`.
 
 ## Options
 
-```tsx
-useHotkeyRecorder({
+Pass options as the second argument to the constructor:
+
+```ts
+new HotkeyRecorderController(this, {
   onRecord: (hotkey) => { /* called when a hotkey is recorded */ },
   onCancel: () => { /* called when recording is cancelled */ },
   onClear: () => { /* called when the recorded hotkey is cleared */ },
@@ -69,23 +86,6 @@ Called when recording is cancelled (either by pressing Escape or calling `cancel
 
 Called when the recorded hotkey is cleared (by pressing Backspace or Delete during recording).
 
-### Global Default Options via Provider
-
-You can set default options for all `useHotkeyRecorder` calls by wrapping your component tree with `HotkeysProvider`. Per-hook options will override the provider defaults.
-
-```tsx
-import { HotkeysProvider } from '@tanstack/react-hotkeys'
-
-<HotkeysProvider
-  defaultOptions={{
-    hotkeyRecorder: {
-      onCancel: () => console.log('Recording cancelled'),
-    },
-  }}
->
-  <App />
-</HotkeysProvider>
-```
 
 ## Recording Behavior
 
@@ -93,7 +93,7 @@ The recorder has specific behavior for different keys:
 
 | Key | Behavior |
 |-----|----------|
-| **Modifier only** (Shift, Ctrl, etc.) | Waits for a non-modifier key -- modifier-only presses don't complete a recording |
+| **Modifier only** (Shift, Ctrl, etc.) | Waits for a non-modifier key — modifier-only presses don't complete a recording |
 | **Modifier + key** (e.g., Ctrl+S) | Records the full combination |
 | **Single key** (e.g., Escape, F1) | Records the single key |
 | **Escape** | Cancels the recording |
@@ -107,62 +107,102 @@ Recorded hotkeys automatically use the portable `Mod` format. If a user on macOS
 
 Here's a more complete example of a shortcut customization panel:
 
-```tsx
-import { useState } from 'react'
+```ts
+import { LitElement, html } from 'lit'
+import { customElement, state } from 'lit/decorators.js'
 import {
-  useHotkey,
-  useHotkeyRecorder,
+  HotkeyRecorderController,
+  HotkeyController,
   formatForDisplay,
-} from '@tanstack/react-hotkeys'
-import type { Hotkey } from '@tanstack/react-hotkeys'
+} from '@tanstack/lit-hotkeys'
+import type { Hotkey } from '@tanstack/lit-hotkeys'
 
-function ShortcutSettings() {
-  const [shortcuts, setShortcuts] = useState<Record<string, Hotkey>>({
+interface ShortcutMap {
+  save: Hotkey
+  undo: Hotkey
+  search: Hotkey
+}
+
+@customElement('shortcut-settings')
+class ShortcutSettings extends LitElement {
+  @state() private shortcuts: ShortcutMap = {
     save: 'Mod+S',
     undo: 'Mod+Z',
     search: 'Mod+K',
-  })
+  }
 
-  const [editingAction, setEditingAction] = useState<string | null>(null)
+  @state() private editingAction: keyof ShortcutMap | null = null
 
-  const recorder = useHotkeyRecorder({
+  private recorder = new HotkeyRecorderController(this, {
     onRecord: (hotkey) => {
-      if (editingAction) {
-        setShortcuts((prev) => ({ ...prev, [editingAction]: hotkey }))
-        setEditingAction(null)
+      if (this.editingAction) {
+        this.shortcuts = { ...this.shortcuts, [this.editingAction]: hotkey }
+        this.editingAction = null
       }
     },
-    onCancel: () => setEditingAction(null),
+    onCancel: () => {
+      this.editingAction = null
+    },
   })
 
-  // Register the actual hotkeys with their current bindings
-  useHotkey(shortcuts.save, () => save())
-  useHotkey(shortcuts.undo, () => undo())
-  useHotkey(shortcuts.search, () => openSearch())
+  private saveCtrl?: HotkeyController
+  private undoCtrl?: HotkeyController
+  private searchCtrl?: HotkeyController
 
-  return (
-    <div>
-      <h2>Keyboard Shortcuts</h2>
-      {Object.entries(shortcuts).map(([action, hotkey]) => (
-        <div key={action}>
-          <span>{action}</span>
-          <button
-            onClick={() => {
-              setEditingAction(action)
-              recorder.startRecording()
-            }}
-          >
-            {editingAction === action && recorder.isRecording
-              ? 'Press keys...'
-              : formatForDisplay(hotkey)}
-          </button>
-        </div>
-      ))}
-    </div>
-  )
+  connectedCallback() {
+    super.connectedCallback()
+    this._registerHotkeys()
+  }
+
+  updated() {
+    this._unregisterHotkeys()
+    this._registerHotkeys()
+  }
+
+  private _registerHotkeys() {
+    this.saveCtrl = new HotkeyController(this, this.shortcuts.save, () => save())
+    this.undoCtrl = new HotkeyController(this, this.shortcuts.undo, () => undo())
+    this.searchCtrl = new HotkeyController(this, this.shortcuts.search, () => openSearch())
+  }
+
+  private _unregisterHotkeys() {
+    this.saveCtrl?.hostDisconnected()
+    this.undoCtrl?.hostDisconnected()
+    this.searchCtrl?.hostDisconnected()
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback()
+    this._unregisterHotkeys()
+  }
+
+  render() {
+    return html`
+      <div>
+        <h2>Keyboard Shortcuts</h2>
+        ${(Object.entries(this.shortcuts) as Array<[keyof ShortcutMap, Hotkey]>).map(
+          ([action, hotkey]) => html`
+            <div>
+              <span>${action}</span>
+              <button
+                @click=${() => {
+                  this.editingAction = action
+                  this.recorder.startRecording()
+                }}
+              >
+                ${this.editingAction === action && this.recorder.isRecording
+                  ? 'Press keys...'
+                  : formatForDisplay(hotkey)}
+              </button>
+            </div>
+          `,
+        )}
+      </div>
+    `
+  }
 }
 ```
 
 ## Under the Hood
 
-The `useHotkeyRecorder` hook creates a `HotkeyRecorder` class instance and subscribes to its reactive state via `@tanstack/react-store`. The class manages its own keyboard event listeners and state, and the hook handles cleanup on unmount.
+The `HotkeyRecorderController` creates a `HotkeyRecorder` class instance and subscribes to its reactive state via `@tanstack/lit-store`. The class manages its own keyboard event listeners and state, and the controller handles cleanup on disconnect.

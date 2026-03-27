@@ -58,11 +58,6 @@ class MyEditor extends LitElement {
     () => this.save(),
   )
 
-  constructor() {
-    super()
-    this.addController(this.saveHotkey)
-  }
-
   private save() {
     saveDocument()
   }
@@ -189,15 +184,22 @@ The DOM element to attach the event listener to. Defaults to `document`. Can be 
 import { LitElement, html } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js'
-import { hotkey } from '@tanstack/lit-hotkeys'
+import { HotkeyController } from '@tanstack/lit-hotkeys'
 
-@customElement('my-panel')
+`@customElement`('my-panel')
 class MyPanel extends LitElement {
   private panelRef = createRef<HTMLDivElement>()
+  private escapeHotkey?: HotkeyController
 
-  @hotkey('Escape', { target: this.panelRef.value })
-  closePanel() {
-    this.dispatchEvent(new CustomEvent('close'))
+  firstUpdated() {
+    if (this.panelRef.value) {
+      this.escapeHotkey = new HotkeyController(
+        this,
+        'Escape',
+        () => this.dispatchEvent(new CustomEvent('close')),
+        { target: this.panelRef.value }
+      )
+    }
   }
 
   render() {
