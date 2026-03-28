@@ -5,7 +5,7 @@ title: HotkeySequenceController
 
 # Class: HotkeySequenceController
 
-Defined in: [controllers/hotkey-sequence.ts:28](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L28)
+Defined in: [controllers/hotkey-sequence.ts:28](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L28)
 
 A Lit ReactiveController that registers a keyboard sequence (e.g. Vim-style)
 when the host element is connected and unregisters it when the host is disconnected.
@@ -39,7 +39,7 @@ new HotkeySequenceController(
    _options): HotkeySequenceController;
 ```
 
-Defined in: [controllers/hotkey-sequence.ts:38](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L38)
+Defined in: [controllers/hotkey-sequence.ts:38](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L38)
 
 #### Parameters
 
@@ -79,7 +79,7 @@ Optional sequence options (target, timeout, enabled, etc.).
 hostConnected(): void;
 ```
 
-Defined in: [controllers/hotkey-sequence.ts:49](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L49)
+Defined in: [controllers/hotkey-sequence.ts:49](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L49)
 
 Registers the sequence with the global sequence manager when the host is connected to the DOM.
 Skips registration if disabled, sequence is empty, or no target is available.
@@ -102,7 +102,7 @@ ReactiveController.hostConnected
 hostDisconnected(): void;
 ```
 
-Defined in: [controllers/hotkey-sequence.ts:80](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L80)
+Defined in: [controllers/hotkey-sequence.ts:76](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey-sequence.ts#L76)
 
 Unregisters the sequence when the host is disconnected from the DOM.
 

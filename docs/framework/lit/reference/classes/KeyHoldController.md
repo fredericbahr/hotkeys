@@ -5,7 +5,7 @@ title: KeyHoldController
 
 # Class: KeyHoldController
 
-Defined in: [controllers/key-hold.ts:43](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L43)
+Defined in: [controllers/key-hold.ts:43](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L43)
 
 A Lit ReactiveController that tracks whether a specific key is currently held.
 
@@ -56,7 +56,7 @@ class ModifierIndicators extends LitElement {
 new KeyHoldController(_host, _key): KeyHoldController;
 ```
 
-Defined in: [controllers/key-hold.ts:58](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L58)
+Defined in: [controllers/key-hold.ts:58](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L58)
 
 #### Parameters
 
@@ -82,7 +82,7 @@ Defined in: [controllers/key-hold.ts:58](https://github.com/fredericbahr/hotkeys
 get value(): boolean;
 ```
 
-Defined in: [controllers/key-hold.ts:50](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L50)
+Defined in: [controllers/key-hold.ts:50](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L50)
 
 Whether the tracked key is currently held down.
 
@@ -98,7 +98,7 @@ Whether the tracked key is currently held down.
 hostConnected(): void;
 ```
 
-Defined in: [controllers/key-hold.ts:65](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L65)
+Defined in: [controllers/key-hold.ts:65](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L65)
 
 Called when the host is connected to the component tree. For custom
 element hosts, this corresponds to the `connectedCallback()` lifecycle,
@@ -122,7 +122,7 @@ ReactiveController.hostConnected
 hostDisconnected(): void;
 ```
 
-Defined in: [controllers/key-hold.ts:83](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L83)
+Defined in: [controllers/key-hold.ts:83](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/key-hold.ts#L83)
 
 Called when the host is disconnected from the component tree. For custom
 element hosts, this corresponds to the `disconnectedCallback()` lifecycle,

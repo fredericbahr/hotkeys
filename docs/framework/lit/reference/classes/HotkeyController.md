@@ -5,7 +5,7 @@ title: HotkeyController
 
 # Class: HotkeyController
 
-Defined in: [controllers/hotkey.ts:34](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L34)
+Defined in: [controllers/hotkey.ts:34](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L34)
 
 A Lit ReactiveController that registers a keyboard hotkey when the host
 element is connected and unregisters it when the host is disconnected.
@@ -39,7 +39,7 @@ new HotkeyController(
    _options): HotkeyController;
 ```
 
-Defined in: [controllers/hotkey.ts:44](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L44)
+Defined in: [controllers/hotkey.ts:44](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L44)
 
 #### Parameters
 
@@ -79,7 +79,7 @@ Optional registration options (target, platform, enabled, etc.).
 hostConnected(): void;
 ```
 
-Defined in: [controllers/hotkey.ts:55](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L55)
+Defined in: [controllers/hotkey.ts:55](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L55)
 
 Registers the hotkey with the global manager when the host is connected to the DOM.
 Skips registration if no target is available (e.g. no document or options.target is null).
@@ -102,7 +102,7 @@ ReactiveController.hostConnected
 hostDisconnected(): void;
 ```
 
-Defined in: [controllers/hotkey.ts:90](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L90)
+Defined in: [controllers/hotkey.ts:90](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/hotkey.ts#L90)
 
 Unregisters the hotkey when the host is disconnected from the DOM.
 

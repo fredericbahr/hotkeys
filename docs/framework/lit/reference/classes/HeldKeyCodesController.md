@@ -5,7 +5,7 @@ title: HeldKeyCodesController
 
 # Class: HeldKeyCodesController
 
-Defined in: [controllers/held-key-codes.ts:26](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L26)
+Defined in: [controllers/held-key-codes.ts:27](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L27)
 
 A Lit ReactiveController that tracks all currently held key names to their physical `event.code` values.
 
@@ -19,9 +19,10 @@ class KeyDisplay extends LitElement {
   private heldKeyCodes = new HeldKeyCodesController(this)
 
   render() {
+    const heldCodes = Object.entries(this.heldKeyCodes.value).map(([key, code]) => `${key}: ${code}`).join(' + ')
     return html`
       <div>
-        Currently pressed: ${this.heldKeys.value.join(' + ') || 'None'}
+        Currently pressed: ${heldCodes || 'None'}
       </div>
     `
   }
@@ -40,7 +41,7 @@ class KeyDisplay extends LitElement {
 new HeldKeyCodesController(_host): HeldKeyCodesController;
 ```
 
-Defined in: [controllers/held-key-codes.ts:40](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L40)
+Defined in: [controllers/held-key-codes.ts:41](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L41)
 
 #### Parameters
 
@@ -64,7 +65,7 @@ The Lit component that owns this controller.
 get value(): Record<string, string>;
 ```
 
-Defined in: [controllers/held-key-codes.ts:33](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L33)
+Defined in: [controllers/held-key-codes.ts:34](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L34)
 
 Map of currently held key names to their physical `event.code` values.
 
@@ -80,7 +81,7 @@ Map of currently held key names to their physical `event.code` values.
 hostConnected(): void;
 ```
 
-Defined in: [controllers/held-key-codes.ts:45](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L45)
+Defined in: [controllers/held-key-codes.ts:46](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L46)
 
 Subscribes to the tracker store and updates the internal state when changes occur.
 
@@ -102,7 +103,7 @@ ReactiveController.hostConnected
 hostDisconnected(): void;
 ```
 
-Defined in: [controllers/held-key-codes.ts:59](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L59)
+Defined in: [controllers/held-key-codes.ts:62](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/controllers/held-key-codes.ts#L62)
 
 Unsubscribes from the tracker store and stops tracking the held key codes.
 

@@ -9,7 +9,7 @@ title: hotkey
 function hotkey(hotkey, options): <T>(proto, propertyKey, descriptor?) => void;
 ```
 
-Defined in: [decorators/hotkey.ts:29](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/decorators/hotkey.ts#L29)
+Defined in: [decorators/hotkey.ts:29](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/decorators/hotkey.ts#L29)
 
 Decorator that registers a keyboard hotkey on the element when it connects
 and unregisters when it disconnects. Uses [HotkeyController](../classes/HotkeyController.md) under the hood.

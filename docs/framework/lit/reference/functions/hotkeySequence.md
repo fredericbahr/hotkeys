@@ -9,7 +9,7 @@ title: hotkeySequence
 function hotkeySequence(sequence, options): <T>(proto, methodName, descriptor) => void;
 ```
 
-Defined in: [decorators/hotkey-sequence.ts:30](https://github.com/fredericbahr/hotkeys/blob/main/packages/lit-hotkeys/src/decorators/hotkey-sequence.ts#L30)
+Defined in: [decorators/hotkey-sequence.ts:30](https://github.com/TanStack/hotkeys/blob/main/packages/lit-hotkeys/src/decorators/hotkey-sequence.ts#L30)
 
 Decorator that registers a keyboard sequence (e.g. Vim-style) on the element
 when it connects and unregisters when it disconnects. Uses

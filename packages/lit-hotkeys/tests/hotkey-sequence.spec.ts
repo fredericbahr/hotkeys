@@ -87,11 +87,7 @@ describe('HotkeySequenceController', () => {
     const callback = vi.fn()
 
     const host = createMockHost()
-    const ctrl = new HotkeySequenceController(
-      host,
-      ['D', 'I', 'W'],
-      callback,
-    )
+    const ctrl = new HotkeySequenceController(host, ['D', 'I', 'W'], callback)
     host.addController(ctrl)
     ctrl.hostConnected()
 
@@ -107,11 +103,7 @@ describe('HotkeySequenceController', () => {
     const callback = vi.fn()
 
     const host = createMockHost()
-    const ctrl = new HotkeySequenceController(
-      host,
-      ['D', 'I', 'W'],
-      callback,
-    )
+    const ctrl = new HotkeySequenceController(host, ['D', 'I', 'W'], callback)
     host.addController(ctrl)
     ctrl.hostConnected()
 
@@ -162,13 +154,11 @@ describe('HotkeySequenceController', () => {
     let capturedThis: unknown
 
     const host = createMockHost()
-    const ctrl = new HotkeySequenceController(
-      host,
-      ['G', 'G'],
-      function (this: unknown) {
-        capturedThis = this
-      },
-    )
+    const ctrl = new HotkeySequenceController(host, ['G', 'G'], function (
+      this: unknown,
+    ) {
+      capturedThis = this
+    })
     host.addController(ctrl)
     ctrl.hostConnected()
 
