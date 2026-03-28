@@ -14,12 +14,12 @@
     "@tanstack/solid-devtools": "0.8.0",
     "@tanstack/solid-hotkeys": "^0.8.3",
     "@tanstack/solid-hotkeys-devtools": "^0.6.3",
-    "solid-js": "^1.9.11"
+    "solid-js": "^1.9.12"
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
-    "typescript": "5.9.3",
-    "vite": "^8.0.1",
+    "typescript": "6.0.2",
+    "vite": "^8.0.3",
     "vite-plugin-solid": "^2.11.11"
   }
 }

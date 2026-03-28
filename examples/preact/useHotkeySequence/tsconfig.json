@@ -14,7 +14,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "types": ["vite/client"]
   },
   "include": ["src", "vite.config.ts"]
 }

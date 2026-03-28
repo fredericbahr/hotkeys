@@ -54,9 +54,9 @@
   "devDependencies": {
     "@sveltejs/package": "^2.5.7",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
-    "@typescript-eslint/parser": "^8.57.1",
+    "@typescript-eslint/parser": "^8.57.2",
     "eslint-plugin-svelte": "^3.16.0",
-    "svelte": "^5.54.1"
+    "svelte": "^5.55.0"
   },
   "peerDependencies": {
     "svelte": "^5.25.0"

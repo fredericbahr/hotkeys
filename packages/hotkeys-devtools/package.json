@@ -54,7 +54,7 @@
     "@tanstack/devtools-utils": "^0.4.0",
     "clsx": "^2.1.1",
     "goober": "^2.1.18",
-    "solid-js": "^1.9.11"
+    "solid-js": "^1.9.12"
   },
   "devDependencies": {
     "vite-plugin-solid": "^2.11.11"
