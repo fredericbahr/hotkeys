@@ -9,7 +9,7 @@ title: getSequenceManager
 function getSequenceManager(): SequenceManager;
 ```
 
-Defined in: [sequence-manager.ts:656](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L656)
+Defined in: [sequence-manager.ts:644](https://github.com/TanStack/hotkeys/blob/main/packages/hotkeys/src/sequence-manager.ts#L644)
 
 Gets the singleton SequenceManager instance.
 Convenience function for accessing the manager.

@@ -277,14 +277,10 @@ useHotkey(
   { target: editorRef },
 )
 
-useHotkey(
-  'J',
-  () => {
-    lastHotkey.value = 'J'
-    editorShortcutCount.value++
-  },
-  { target: editorRef },
-)
+useHotkey('J', () => {
+  lastHotkey.value = 'J'
+  editorShortcutCount.value++
+})
 
 const basicCode = `useHotkey('Mod+S', (_event, { hotkey, parsedHotkey }) => {
   console.log('Hotkey:', hotkey)

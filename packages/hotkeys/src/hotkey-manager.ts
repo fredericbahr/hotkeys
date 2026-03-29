@@ -5,11 +5,10 @@ import { parseHotkey, rawHotkeyToParsedHotkey } from './parse'
 import { matchesKeyboardEvent } from './match'
 import {
   defaultHotkeyOptions,
-  getActiveElementForListenerTarget,
   getDefaultIgnoreInputs,
   handleConflict,
   isEventForTarget,
-  isInputElement,
+  shouldIgnoreInputEvent,
 } from './manager.utils'
 import type { ConflictBehavior } from './manager.utils'
 import type {
@@ -457,11 +456,7 @@ export class HotkeyManager {
 
       // Check if we should ignore input elements (defaults to true)
       if (registration.options.ignoreInputs !== false) {
-        const focused = getActiveElementForListenerTarget(target)
-        const shouldIgnore = [focused, event.target].some(
-          (el) => isInputElement(el) && el !== registration.target,
-        )
-        if (shouldIgnore) {
+        if (shouldIgnoreInputEvent(event, target, registration.target)) {
           continue
         }
       }

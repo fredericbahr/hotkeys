@@ -349,14 +349,10 @@ function App() {
     { target: editorRefForHotkey },
   )
 
-  useHotkey(
-    'J',
-    () => {
-      setLastHotkey('J')
-      setEditorShortcutCount((c) => c + 1)
-    },
-    { target: editorRefForHotkey },
-  )
+  useHotkey('J', () => {
+    setLastHotkey('J')
+    setEditorShortcutCount((c) => c + 1)
+  })
 
   return (
     <div className="app">

@@ -279,14 +279,10 @@ export class AppComponent {
       },
       () => ({ target: this.editorRef()?.nativeElement ?? null }),
     )
-    injectHotkey(
-      'J',
-      () => {
-        this.lastHotkey.set('J')
-        this.editorShortcutCount.update((c) => c + 1)
-      },
-      () => ({ target: this.editorRef()?.nativeElement ?? null }),
-    )
+    injectHotkey('J', () => {
+      this.lastHotkey.set('J')
+      this.editorShortcutCount.update((c) => c + 1)
+    })
   }
 
   protected formatForDisplay = formatForDisplay

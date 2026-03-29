@@ -850,6 +850,34 @@ describe('HotkeyManager', () => {
       document.body.removeChild(input)
     })
 
+    it('should ignore single-key hotkeys when typing in a shadow-dom textarea', () => {
+      const manager = HotkeyManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register('K', callback, {
+        platform: 'mac',
+      })
+
+      const host = document.createElement('div')
+      const shadowRoot = host.attachShadow({ mode: 'open' })
+      const textarea = document.createElement('textarea')
+      shadowRoot.appendChild(textarea)
+      document.body.appendChild(host)
+
+      textarea.focus()
+      textarea.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'k',
+          bubbles: true,
+          composed: true,
+        }),
+      )
+
+      expect(callback).not.toHaveBeenCalled()
+
+      document.body.removeChild(host)
+    })
+
     it('should fire hotkeys when typing in non-input elements', () => {
       const manager = HotkeyManager.getInstance()
       const callback = vi.fn()

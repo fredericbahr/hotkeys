@@ -160,14 +160,10 @@ export class MyApp extends LitElement {
           },
           { target: editor },
         ),
-        manager.register(
-          'J',
-          () => {
-            this.lastHotkey = 'J'
-            this.editorShortcutCount++
-          },
-          { target: editor },
-        ),
+        manager.register('J', () => {
+          this.lastHotkey = 'J'
+          this.editorShortcutCount++
+        }),
       )
     }
   }

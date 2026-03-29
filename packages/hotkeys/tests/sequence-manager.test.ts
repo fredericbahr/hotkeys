@@ -301,6 +301,39 @@ describe('SequenceManager', () => {
       document.body.removeChild(textarea)
     })
 
+    it('should ignore single-key sequences in a shadow-dom textarea by default', () => {
+      const manager = SequenceManager.getInstance()
+      const callback = vi.fn()
+
+      manager.register(['G', 'G'], callback)
+
+      const host = document.createElement('div')
+      const shadowRoot = host.attachShadow({ mode: 'open' })
+      const textarea = document.createElement('textarea')
+      shadowRoot.appendChild(textarea)
+      document.body.appendChild(host)
+
+      textarea.focus()
+      textarea.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'g',
+          bubbles: true,
+          composed: true,
+        }),
+      )
+      textarea.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'g',
+          bubbles: true,
+          composed: true,
+        }),
+      )
+
+      expect(callback).not.toHaveBeenCalled()
+
+      document.body.removeChild(host)
+    })
+
     it('should ignore single-key sequences in contenteditable elements by default', () => {
       const manager = SequenceManager.getInstance()
       const callback = vi.fn()

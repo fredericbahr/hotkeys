@@ -105,6 +105,38 @@ export function getActiveElementForListenerTarget(
 }
 
 /**
+ * Returns whether an event should be ignored because it originated from an
+ * input-like element other than the registration target.
+ *
+ * This checks:
+ * - the currently focused element for the listener target
+ * - the event's composed path (for shadow DOM)
+ * - the event target as a final fallback
+ */
+export function shouldIgnoreInputEvent(
+  event: KeyboardEvent,
+  listenerTarget: HTMLElement | Document | Window,
+  registrationTarget: HTMLElement | Document | Window,
+): boolean {
+  const focused = getActiveElementForListenerTarget(listenerTarget)
+  if (focused && isInputElement(focused) && focused !== registrationTarget) {
+    return true
+  }
+
+  if (
+    event
+      .composedPath()
+      .some(
+        (element) => isInputElement(element) && element !== registrationTarget,
+      )
+  ) {
+    return true
+  }
+
+  return isInputElement(event.target) && event.target !== registrationTarget
+}
+
+/**
  * Checks if an event is for the given target (originated from or bubbled to it).
  *
  * For document/window targets, also accepts document.documentElement as currentTarget
