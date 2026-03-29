@@ -5,14 +5,14 @@
 <br />
 
 <div align="center">
-	<a href="https://www.npmjs.com/package/@tanstack/hotkeys" target="_parent">
-	  <img src="https://img.shields.io/npm/dm/@tanstack/hotkeys.svg" alt="npm downloads" />
+	<a href="https://www.npmjs.com/package/@tanstack/hotkeys" target="\_parent">
+	  <img alt="" src="https://img.shields.io/npm/dm/@tanstack/hotkeys.svg" alt="npm downloads" />
 	</a>
-	<a href="https://github.com/TanStack/hotkeys" target="_parent">
-	  <img src="https://img.shields.io/github/stars/TanStack/hotkeys.svg?style=social&label=Star" alt="GitHub stars" />
+	<a href="https://github.com/TanStack/hotkeys" target="\_parent">
+	  <img alt="" src="https://img.shields.io/github/stars/TanStack/hotkeys.svg?style=social&label=Star" alt="GitHub stars" />
 	</a>
-	<a href="https://bundlephobia.com/result?p=@tanstack/lit-hotkeys@latest" target="_parent">
-	  <img src="https://badgen.net/bundlephobia/minzip/@tanstack/lit-hotkeys@latest" alt="Bundle size" />
+	<a href="https://bundlephobia.com/result?p=@tanstack/react-hotkeys@latest" target="\_parent">
+	  <img alt="" src="https://badgen.net/bundlephobia/minzip/@tanstack/react-hotkeys@latest" alt="Bundle size" />
 	</a>
 </div>
 
@@ -37,7 +37,7 @@
 # TanStack Hotkeys
 
 > [!NOTE]
-> TanStack Hotkeys is pre-alpha (prototyping phase). We are actively developing the library and are open to feedback and contributions.
+> TanStack Hotkeys is alpha. We are actively developing the library and are open to feedback and contributions.
 
 Type-safe keyboard shortcuts for the web. Template-string bindings, parsed objects, a cross-platform `Mod` key, a singleton Hotkey Manager, and utilities for cheatsheet UIs—built to stay SSR-friendly.
 
@@ -59,14 +59,14 @@ Type-safe keyboard shortcuts for the web. Template-string bindings, parsed objec
 > - [**Angular Hotkeys**](https://tanstack.com/hotkeys/latest/docs/framework/angular/reference)
 > - [**Vue Hotkeys**](https://tanstack.com/hotkeys/latest/docs/framework/vue/reference)
 > - [**Lit Hotkeys**](https://tanstack.com/hotkeys/latest/docs/framework/lit/reference)
-> - Svelte Hotkeys – needs a contributor!
+> - [**Svelte Hotkeys**](https://tanstack.com/hotkeys/latest/docs/framework/svelte/reference)
 
 ## Get Involved
 
 - We welcome issues and pull requests!
 - Participate in [GitHub discussions](https://github.com/TanStack/hotkeys/discussions)
 - Chat with the community on [Discord](https://discord.com/invite/WrRKjPJ)
-- See [CONTRIBUTING.md](../../CONTRIBUTING.md) for setup instructions
+- See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions
 
 ## Partners
 

@@ -210,9 +210,9 @@ On macOS, when a modifier key is held and a non-modifier key is pressed, the OS 
 
 When the browser window loses focus, all held keys are automatically cleared. This prevents “stuck” keys after the user tabs away and releases keys outside the window.
 
-## Under the hood 
+## Under the hood
 
-The three controllers subscribe to the singleton `KeyStateTracker` via `@tanstack/lit-store`. The tracker manages its own event listeners on `document` and maintains state in a TanStack Store, which the controllers subscribe to reactively.
+The three controllers subscribe to the singleton `KeyStateTracker` store from `@tanstack/hotkeys`. The tracker manages its own event listeners on `document` and maintains state in a TanStack Store, which the controllers read reactively.
 
 ```ts
 import { getKeyStateTracker } from '@tanstack/lit-hotkeys'

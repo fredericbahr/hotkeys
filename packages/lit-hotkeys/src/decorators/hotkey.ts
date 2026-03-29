@@ -21,7 +21,7 @@ import type {
  *   @hotkey('Mod+S')
  *   save() { this.doSave() }
  *
- *   @hotkey('Escape', { target: document })
+ *   @hotkey('Escape')
  *   close() { this.dismiss() }
  * }
  * ```

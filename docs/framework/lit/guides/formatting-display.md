@@ -106,15 +106,25 @@ class MenuItem extends LitElement {
 
   @property({ type: String }) hotkey = ''
 
-  firstUpdated(changedProperties: PropertyValues) {
-    super.firstUpdated(changedProperties)
-    this.addController(
-      new HotkeyController(this, this.hotkey, () =>
-        this.dispatchEvent(
-          new CustomEvent('action', { bubbles: true, composed: true }),
-        ),
+  private hotkeyController?: HotkeyController
+
+  updated(changedProperties: PropertyValues<this>) {
+    if (!changedProperties.has('hotkey')) return
+
+    if (this.hotkeyController) {
+      this.hotkeyController.hostDisconnected()
+      this.removeController(this.hotkeyController)
+      this.hotkeyController = undefined
+    }
+
+    if (!this.hotkey) return
+
+    this.hotkeyController = new HotkeyController(this, this.hotkey, () =>
+      this.dispatchEvent(
+        new CustomEvent('action', { bubbles: true, composed: true }),
       ),
     )
+    this.addController(this.hotkeyController)
   }
 
   render() {
@@ -129,10 +139,12 @@ class MenuItem extends LitElement {
 ```
 
 Usage:
-```html
-<menu-item label="Save" hotkey="Mod+S" @action=${save}></menu-item>
-<menu-item label="Undo" hotkey="Mod+Z" @action=${undo}></menu-item>
-<menu-item label="Find" hotkey="Mod+F" @action=${find}></menu-item>
+```ts
+html`
+  <menu-item label="Save" hotkey="Mod+S" @action=${save}></menu-item>
+  <menu-item label="Undo" hotkey="Mod+Z" @action=${undo}></menu-item>
+  <menu-item label="Find" hotkey="Mod+F" @action=${find}></menu-item>
+`
 ```
 
 ### Command Palette Items
@@ -198,7 +210,7 @@ TanStack Hotkeys also provides utilities for parsing and normalizing hotkey stri
 
 ### `parseHotkey`
 
-Parse a hotkey string into its component parts:
+Parse a hotkey string into its components:
 
 ```ts
 import { parseHotkey } from '@tanstack/lit-hotkeys'

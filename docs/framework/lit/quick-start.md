@@ -95,20 +95,32 @@ class MyEditor extends LitElement {
 
 ### Scoped Hotkeys
 
-Attach hotkeys to specific elements instead of the entire document using the `target` option:
+Attach hotkeys to specific elements instead of the entire document using the `target` option. When the target comes from a ref, create the registration after the element has rendered:
 
 ```ts
 import { LitElement, html } from 'lit'
 import { customElement } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js'
-import { hotkey } from '@tanstack/lit-hotkeys'
+import { HotkeyController } from '@tanstack/lit-hotkeys'
 
 @customElement('my-panel')
 class MyPanel extends LitElement {
   private panelRef = createRef<HTMLDivElement>()
+  private escapeHotkey?: HotkeyController
 
-  @hotkey('Escape', { target: this.panelRef.value })
-  closePanel() {
+  firstUpdated() {
+    if (!this.panelRef.value) return
+
+    this.escapeHotkey = new HotkeyController(
+      this,
+      'Escape',
+      () => this.closePanel(),
+      { target: this.panelRef.value },
+    )
+    this.addController(this.escapeHotkey)
+  }
+
+  private closePanel() {
     this.dispatchEvent(new CustomEvent('close'))
   }
 
@@ -274,5 +286,6 @@ Use **decorators** when you simply want a method to fire on a key combo. Use **c
 - [Hotkeys Guide](./guides/hotkeys) - Deep dive into `@hotkey` decorator and `HotkeyController` options
 - [Sequences Guide](./guides/sequences) - Multi-key sequence handling
 - [Hotkey Recording Guide](./guides/hotkey-recording) - Building shortcut customization UIs
+- [Sequence Recording Guide](./guides/sequence-recording) - Capture multi-step shortcuts
 - [Key State Tracking Guide](./guides/key-state-tracking) - Real-time key state monitoring
 - [Formatting & Display Guide](./guides/formatting-display) - Platform-aware hotkey formatting

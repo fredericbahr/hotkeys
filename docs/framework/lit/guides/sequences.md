@@ -5,7 +5,7 @@ id: sequences
 
 TanStack Hotkeys supports multi-key sequences -- shortcuts where you press keys one after another rather than simultaneously. This is commonly used for Vim-style navigation, cheat codes, or multi-step commands.
 
-In Lit, registration is **declarative** via the `@hotkeySequence` decorator , or **imperative** via `HotkeySequenceController` when the sequence or options are built at runtime. Both use the same singleton `SequenceManager`.
+In Lit, registration is **declarative** via the `@hotkeySequence` decorator, or **imperative** via `HotkeySequenceController` when the sequence or options are built at runtime. Both use the same singleton `SequenceManager`.
 
 ## Basic Usage
 
@@ -147,7 +147,7 @@ scrollToTop() {
 
 ### Default options
 
-When you omit options, the library uses the same defaults as the core [`SequenceOptions`](../../../reference/interfaces/SequenceOptions.md) (see also `HOTKEY_SEQUENCE_DEFAULT_OPTIONS` in the Lit package): `timeout: 1000`, `preventDefault` / `stopPropagation` enabled, smart `ignoreInputs`, `target: document`, and platform auto-detection.
+When you omit options, the library uses the same defaults as the core [`SequenceOptions`](../../../reference/interfaces/SequenceOptions.md): `timeout: 1000`, `preventDefault` / `stopPropagation` enabled, smart `ignoreInputs`, and platform auto-detection. If you omit `target`, the Lit adapter resolves it to `document` when the controller connects in the browser.
 
 ## Sequences with Modifiers
 

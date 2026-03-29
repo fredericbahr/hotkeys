@@ -352,6 +352,15 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "Lit Controllers & Decorators",
+              "to": "framework/lit/reference/index"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -587,6 +596,19 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "hotkey",
+              "to": "framework/lit/reference/functions/hotkey"
+            },
+            {
+              "label": "HotkeyController",
+              "to": "framework/lit/reference/classes/HotkeyController"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -786,6 +808,19 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "hotkeySequence",
+              "to": "framework/lit/reference/functions/hotkeySequence"
+            },
+            {
+              "label": "HotkeySequenceController",
+              "to": "framework/lit/reference/classes/HotkeySequenceController"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -925,6 +960,23 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "KeyHoldController",
+              "to": "framework/lit/reference/classes/KeyHoldController"
+            },
+            {
+              "label": "HeldKeysController",
+              "to": "framework/lit/reference/classes/HeldKeysController"
+            },
+            {
+              "label": "HeldKeyCodesController",
+              "to": "framework/lit/reference/classes/HeldKeyCodesController"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -1040,6 +1092,15 @@
           ]
         },
         {
+          "label": "lit",
+          "children": [
+            {
+              "label": "HotkeyRecorderController",
+              "to": "framework/lit/reference/classes/HotkeyRecorderController"
+            }
+          ]
+        },
+        {
           "label": "svelte",
           "children": [
             {
@@ -1139,6 +1200,15 @@
             {
               "label": "VueHotkeySequenceRecorder",
               "to": "framework/vue/reference/interfaces/VueHotkeySequenceRecorder"
+            }
+          ]
+        },
+        {
+          "label": "lit",
+          "children": [
+            {
+              "label": "HotkeySequenceRecorderController",
+              "to": "framework/lit/reference/classes/HotkeySequenceRecorderController"
             }
           ]
         },
@@ -1423,6 +1493,35 @@
             {
               "label": "useKeyHold",
               "to": "framework/vue/examples/useKeyhold"
+            }
+          ]
+        },
+        {
+          "label": "lit",
+          "children": [
+            {
+              "label": "hotkey",
+              "to": "framework/lit/examples/hotkey"
+            },
+            {
+              "label": "hotkey-sequence",
+              "to": "framework/lit/examples/hotkey-sequence"
+            },
+            {
+              "label": "hotkey-recorder",
+              "to": "framework/lit/examples/hotkey-recorder"
+            },
+            {
+              "label": "hotkey-sequence-recorder",
+              "to": "framework/lit/examples/hotkey-sequence-recorder"
+            },
+            {
+              "label": "held-keys",
+              "to": "framework/lit/examples/held-keys"
+            },
+            {
+              "label": "key-hold",
+              "to": "framework/lit/examples/key-hold"
             }
           ]
         },

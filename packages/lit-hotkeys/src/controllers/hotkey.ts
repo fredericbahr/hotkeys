@@ -63,12 +63,12 @@ export class HotkeyController implements ReactiveController {
             rawHotkeyToParsedHotkey(this._hotkey, platform),
           ) as Hotkey)
 
-    const resolvedTarget =
-      'target' in this._options
-        ? (this._options.target ?? null)
-        : typeof document !== 'undefined'
-          ? document
-          : null
+    const hasExplicitTarget = 'target' in this._options
+    const resolvedTarget = hasExplicitTarget
+      ? (this._options.target ?? null)
+      : typeof document !== 'undefined'
+        ? document
+        : null
 
     if (!resolvedTarget) {
       return

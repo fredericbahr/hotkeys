@@ -58,6 +58,11 @@ class MyEditor extends LitElement {
     () => this.save(),
   )
 
+  constructor() {
+    super()
+    this.addController(this.saveHotkey)
+  }
+
   private save() {
     saveDocument()
   }
@@ -80,12 +85,13 @@ When you register a hotkey without passing options, or when you omit specific op
   eventType: 'keydown',
   requireReset: false,
   ignoreInputs: undefined, // smart default: false for Mod+S, true for single keys
-  target: document,
   platform: undefined, // auto-detected
   conflictBehavior: 'warn',
 })
 save() { /* ... */ }
 ```
+
+If you omit `target`, the Lit adapter resolves it when the controller connects: it listens on `document` in the browser, and skips registration in non-DOM environments.
 
 ### Why These Defaults?
 
@@ -178,7 +184,7 @@ submit() { /* ... */ }
 
 ### `target`
 
-The DOM element to attach the event listener to. Defaults to `document`. Can be a DOM element, `document`, or `window`.
+The DOM element to attach the event listener to. When omitted, the Lit adapter resolves `document` at connect time in the browser. Can be a DOM element, `document`, or `window`. Pass `null` to intentionally skip registration.
 
 ```ts
 import { LitElement, html } from 'lit'
@@ -186,20 +192,21 @@ import { customElement } from 'lit/decorators.js'
 import { createRef, ref } from 'lit/directives/ref.js'
 import { HotkeyController } from '@tanstack/lit-hotkeys'
 
-`@customElement`('my-panel')
+@customElement('my-panel')
 class MyPanel extends LitElement {
   private panelRef = createRef<HTMLDivElement>()
   private escapeHotkey?: HotkeyController
 
   firstUpdated() {
-    if (this.panelRef.value) {
-      this.escapeHotkey = new HotkeyController(
-        this,
-        'Escape',
-        () => this.dispatchEvent(new CustomEvent('close')),
-        { target: this.panelRef.value }
-      )
-    }
+    if (!this.panelRef.value) return
+
+    this.escapeHotkey = new HotkeyController(
+      this,
+      'Escape',
+      () => this.dispatchEvent(new CustomEvent('close')),
+      { target: this.panelRef.value },
+    )
+    this.addController(this.escapeHotkey)
   }
 
   render() {

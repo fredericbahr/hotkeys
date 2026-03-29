@@ -205,4 +205,4 @@ class ShortcutSettings extends LitElement {
 
 ## Under the Hood
 
-The `HotkeyRecorderController` creates a `HotkeyRecorder` class instance and subscribes to its reactive state via `@tanstack/lit-store`. The class manages its own keyboard event listeners and state, and the controller handles cleanup on disconnect.
+The `HotkeyRecorderController` creates a `HotkeyRecorder` class instance and subscribes to its reactive state via the recorder's TanStack Store. The class manages its own keyboard event listeners and state, and the controller handles cleanup on disconnect.

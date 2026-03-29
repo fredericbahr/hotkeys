@@ -71,6 +71,8 @@ If you want the Vue devtools panel component, also install:
 
 Start with the [Quick Start](./framework/lit/quick-start) guide and the Lit-specific [guides](./framework/lit/guides/hotkeys).
 
+Lit currently ships the hotkeys adapter only, so no dedicated Lit devtools package is required.
+
 <!-- ::end:framework -->
 
 <!-- ::start:tabs variant="package-manager" -->

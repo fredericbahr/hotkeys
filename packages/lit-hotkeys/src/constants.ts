@@ -7,7 +7,6 @@ export const HOTKEY_DEFAULT_OPTIONS: HotkeyOptions = {
   eventType: 'keydown',
   requireReset: false,
   ignoreInputs: undefined, // smart default: false for Mod+S, true for single keys
-  target: document,
   platform: undefined, // auto-detected
   conflictBehavior: 'warn',
 }
@@ -19,7 +18,6 @@ export const HOTKEY_SEQUENCE_DEFAULT_OPTIONS: SequenceOptions = {
   stopPropagation: true,
   eventType: 'keydown',
   ignoreInputs: undefined, // smart default: false for Mod+S, true for single keys
-  target: document,
   platform: undefined, // auto-detected
   conflictBehavior: 'warn',
 }

@@ -51,12 +51,12 @@ export class HotkeySequenceController implements ReactiveController {
 
     const manager: SequenceManager = getSequenceManager()
 
-    const resolvedTarget =
-      'target' in this._options
-        ? (this._options.target ?? null)
-        : typeof document !== 'undefined'
-          ? document
-          : null
+    const hasExplicitTarget = 'target' in this._options
+    const resolvedTarget = hasExplicitTarget
+      ? (this._options.target ?? null)
+      : typeof document !== 'undefined'
+        ? document
+        : null
 
     if (!resolvedTarget) {
       return
